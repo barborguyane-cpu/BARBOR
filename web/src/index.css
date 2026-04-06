@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  body { background: #0A0A0A; color: #fff; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #111827; }
+  ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
+}
+
+@layer components {
+  .btn-gold {
+    @apply bg-gold-gradient text-black font-bold uppercase tracking-widest px-6 py-3 rounded-xl
+           hover:opacity-90 active:scale-95 transition-all duration-200 cursor-pointer;
+  }
+  .btn-outline {
+    @apply border border-gold text-gold font-bold uppercase tracking-widest px-6 py-3 rounded-xl
+           hover:bg-gold hover:text-black transition-all duration-200 cursor-pointer;
+  }
+  .card {
+    @apply bg-surface rounded-2xl border border-white/5 p-6;
+  }
+  .card-gold {
+    @apply bg-surface rounded-2xl border border-gold/20 p-6;
+  }
+  .gold-text {
+    @apply text-gold font-bold;
+  }
+  .badge-green  { @apply bg-green-500/15  text-green-400  text-xs font-bold px-2 py-1 rounded-md; }
+  .badge-gold   { @apply bg-gold/15       text-gold       text-xs font-bold px-2 py-1 rounded-md; }
+  .badge-red    { @apply bg-red-500/15    text-red-400    text-xs font-bold px-2 py-1 rounded-md; }
+  .badge-gray   { @apply bg-white/5       text-gray-400   text-xs font-bold px-2 py-1 rounded-md; }
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #F0D060, #D4AF37, #A08828);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
