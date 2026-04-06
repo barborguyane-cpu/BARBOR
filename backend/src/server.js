@@ -35,6 +35,29 @@ app.use('/api/payments', require('./routes/payments'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/notifications', require('./routes/notifications'));
 
+// ─── Root ─────────────────────────────────────────────────────────────────────
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    app: "BARB'OR GUYANE",
+    description: "API Premium Barbershop — Guyane",
+    version: '1.0.0',
+    status: '🟢 En ligne',
+    endpoints: {
+      health:       'GET  /health',
+      barbers:      'GET  /api/barbers',
+      services:     'GET  /api/services',
+      products:     'GET  /api/products',
+      appointments: 'POST /api/appointments',
+      orders:       'POST /api/orders',
+      driver:       'POST /api/driver/requests',
+      auth:         'POST /api/auth/login | /api/auth/register',
+      admin:        'GET  /api/admin/stats  [admin only]',
+    },
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // ─── Health check ─────────────────────────────────────────────────────────────
 app.get('/health', (req, res) => {
   res.json({
