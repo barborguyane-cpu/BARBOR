@@ -60,9 +60,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🪒 BARB'OR GUYANE API running on port ${PORT}`);
-  console.log(`📍 Health check: http://localhost:${PORT}/health\n`);
-});
+// Start server only when running directly (not on Vercel serverless)
+if (process.env.NODE_ENV !== 'production' || process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`\n🪒 BARB'OR GUYANE API running on port ${PORT}`);
+    console.log(`📍 Health check: http://localhost:${PORT}/health\n`);
+  });
+}
 
 module.exports = app;
