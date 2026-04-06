@@ -1,0 +1,14 @@
+{
+  "name": "barbor-guyane-monorepo",
+  "version": "1.0.0",
+  "description": "BARB'OR GUYANE — Application mobile premium barbershop",
+  "private": true,
+  "workspaces": ["app", "backend"],
+  "scripts": {
+    "app": "cd app && expo start",
+    "backend": "cd backend && npm run dev",
+    "install:all": "npm install && cd app && npm install && cd ../backend && npm install",
+    "android": "cd app && expo start --android",
+    "ios": "cd app && expo start --ios"
+  }
+}
