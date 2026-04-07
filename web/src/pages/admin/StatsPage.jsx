@@ -3,8 +3,17 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { Star, TrendingUp, Users, Award } from 'lucide-react'
 import { BARBERS } from '../../data/mockData.js'
 
-// Apprentis — stats en cours d'acquisition
+// Stats par barber (tous à zéro — à remplir au fur et à mesure)
 const BARBER_STATS = {
+  b1: {
+    rdvMonth: 0, revenue: 0, rating: 0, loyalClients: 0,
+    satisfaction: { ponctualite: 0, qualite: 0, accueil: 0, proprete: 0 },
+    revenueWeek: [
+      { day: 'Lun', v: 0 }, { day: 'Mar', v: 0 }, { day: 'Mer', v: 0 },
+      { day: 'Jeu', v: 0 }, { day: 'Ven', v: 0 }, { day: 'Sam', v: 0 }, { day: 'Dim', v: 0 },
+    ],
+    topService: '—',
+  },
   b5: {
     rdvMonth: 0, revenue: 0, rating: 0, loyalClients: 0,
     satisfaction: { ponctualite: 0, qualite: 0, accueil: 0, proprete: 0 },

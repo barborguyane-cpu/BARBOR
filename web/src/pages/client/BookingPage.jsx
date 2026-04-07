@@ -101,7 +101,7 @@ export function BookingPage({ auth, onRequireAuth }) {
       {step === 0 && (
         <div className="space-y-3">
           <h2 className="text-lg font-bold text-white mb-4">Choisissez votre barber</h2>
-          {BARBERS.map(b => (
+          {BARBERS.filter(b => !b.adminOnly).map(b => (
             <button key={b.id} disabled={!b.available}
               onClick={() => { setBarber(b); setStep(1) }}
               className={`w-full flex items-center gap-4 p-4 rounded-2xl border transition-all text-left

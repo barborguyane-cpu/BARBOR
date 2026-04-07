@@ -31,8 +31,9 @@ const HOUR_LABELS = Array.from({ length: DAY_END - DAY_START }, (_, i) =>
   `${String(DAY_START + i).padStart(2, '0')}:00`
 )
 
-// Per-barber color (blue = Chadrac, emerald = Quentin)
+// Per-barber color (gold = Christopher, blue = Chadrac, emerald = Quentin)
 const B_CLR = {
+  b1: { bg: 'rgba(212,175,55,0.85)',  border: '#D4AF37', dot: '#D4AF37' },
   b5: { bg: 'rgba(59,130,246,0.80)',  border: '#3B82F6', dot: '#3B82F6' },
   b6: { bg: 'rgba(16,185,129,0.80)',  border: '#10B981', dot: '#10B981' },
 }

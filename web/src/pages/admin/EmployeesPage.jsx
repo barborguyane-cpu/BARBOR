@@ -3,6 +3,7 @@ import { Star, TrendingUp, Users, Plus, X, Edit2, Trash2, Phone, Mail, Calendar,
 import { BARBERS as INITIAL_BARBERS } from '../../data/mockData.js'
 
 const INIT_PERF = {
+  b1: { clients: 0, revenue: 0 },
   b5: { clients: 0, revenue: 0 },
   b6: { clients: 0, revenue: 0 },
 }
