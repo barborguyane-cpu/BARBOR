@@ -111,6 +111,46 @@ function Nav({ onBook }) {
 }
 
 /* ────────────────────────────────────────────────────────
+   LOGO HERO — avec fallback si logo.png absent
+──────────────────────────────────────────────────────── */
+function LogoHero() {
+  const [imgOk, setImgOk] = useState(true)
+
+  return (
+    <div className="absolute top-[10vh] left-1/2 -translate-x-1/2 flex items-center justify-center">
+      {/* Halos */}
+      <div className="absolute w-52 h-52 rounded-full bg-gold/10 blur-3xl" />
+      <div className="absolute w-40 h-40 rounded-full bg-gold/20 blur-xl" />
+      {/* Rings animés */}
+      <div className="absolute w-44 h-44 rounded-full border border-gold/30 animate-pulse" />
+      <div className="absolute w-52 h-52 rounded-full border border-gold/10" />
+
+      {/* Logo officiel */}
+      {imgOk ? (
+        <img
+          src="/logo.png"
+          alt="BARB'OR"
+          className="relative w-36 h-36 object-contain drop-shadow-2xl rounded-full"
+          onError={() => setImgOk(false)}
+        />
+      ) : (
+        /* Fallback gold si logo.png manquant */
+        <div className="relative w-36 h-36 rounded-full bg-gradient-to-br from-[#D4AF37] via-[#B8960C] to-[#8B6914]
+          flex flex-col items-center justify-center shadow-2xl border-2 border-gold/50">
+          {/* Poteau de barbier stylisé */}
+          <div className="flex gap-1 mb-1">
+            {['#fff','#1a1a5e','#fff'].map((c, i) => (
+              <div key={i} className="w-1.5 h-8 rounded-full" style={{ background: c, opacity: 0.9 }} />
+            ))}
+          </div>
+          <p className="text-black font-black text-xs tracking-[2px] leading-none mt-1">BARB'OR</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ────────────────────────────────────────────────────────
    HERO — style Blackbox Paris
 ──────────────────────────────────────────────────────── */
 function Hero({ onBook }) {
@@ -172,20 +212,7 @@ function Hero({ onBook }) {
       </div>
 
       {/* Logo central — grand, lumineux, en haut */}
-      <div className="absolute top-[10vh] left-1/2 -translate-x-1/2 flex flex-col items-center">
-        {/* Halo gold derrière le logo */}
-        <div className="absolute w-48 h-48 rounded-full bg-gold/10 blur-2xl" />
-        <div className="absolute w-36 h-36 rounded-full bg-gold/15 blur-xl" />
-        {/* Ring gold animé */}
-        <div className="absolute w-40 h-40 rounded-full border border-gold/30 animate-pulse" />
-        <div className="absolute w-44 h-44 rounded-full border border-gold/10" />
-        {/* Logo */}
-        <img
-          src="/logo.png"
-          alt="BARB'OR GUYANE"
-          className="relative w-36 h-36 object-contain drop-shadow-2xl"
-        />
-      </div>
+      <LogoHero />
 
       {/* Hero content — bottom aligned like Blackbox */}
       <div className="relative text-center px-5 space-y-7">
