@@ -3,62 +3,25 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { Star, TrendingUp, Users, Award } from 'lucide-react'
 import { BARBERS } from '../../data/mockData.js'
 
-// Simulated per-barber stats
+// Apprentis — stats en cours d'acquisition
 const BARBER_STATS = {
-  b1: {
-    rdvMonth: 94,  revenue: 2820, rating: 4.9, loyalClients: 38,
-    satisfaction: { ponctualite: 97, qualite: 98, accueil: 95, proprete: 96 },
-    revenueWeek: [
-      { day: 'Lun', v: 420 }, { day: 'Mar', v: 380 }, { day: 'Mer', v: 560 },
-      { day: 'Jeu', v: 490 }, { day: 'Ven', v: 640 }, { day: 'Sam', v: 780 }, { day: 'Dim', v: 0 },
-    ],
-    topService: 'Dégradé',
-  },
-  b2: {
-    rdvMonth: 76,  revenue: 2280, rating: 4.8, loyalClients: 29,
-    satisfaction: { ponctualite: 92, qualite: 95, accueil: 98, proprete: 94 },
-    revenueWeek: [
-      { day: 'Lun', v: 300 }, { day: 'Mar', v: 260 }, { day: 'Mer', v: 420 },
-      { day: 'Jeu', v: 360 }, { day: 'Ven', v: 480 }, { day: 'Sam', v: 620 }, { day: 'Dim', v: 0 },
-    ],
-    topService: 'Coupe + Barbe',
-  },
-  b3: {
-    rdvMonth: 61,  revenue: 1830, rating: 4.7, loyalClients: 21,
-    satisfaction: { ponctualite: 88, qualite: 91, accueil: 94, proprete: 92 },
-    revenueWeek: [
-      { day: 'Lun', v: 220 }, { day: 'Mar', v: 180 }, { day: 'Mer', v: 320 },
-      { day: 'Jeu', v: 280 }, { day: 'Ven', v: 360 }, { day: 'Sam', v: 470 }, { day: 'Dim', v: 0 },
-    ],
-    topService: 'Rasage',
-  },
-  b4: {
-    rdvMonth: 108, revenue: 3240, rating: 4.9, loyalClients: 52,
-    satisfaction: { ponctualite: 99, qualite: 99, accueil: 97, proprete: 98 },
-    revenueWeek: [
-      { day: 'Lun', v: 520 }, { day: 'Mar', v: 460 }, { day: 'Mer', v: 680 },
-      { day: 'Jeu', v: 590 }, { day: 'Ven', v: 760 }, { day: 'Sam', v: 980 }, { day: 'Dim', v: 0 },
-    ],
-    topService: 'Art capillaire',
-  },
-  // Apprentis — stats en cours d'acquisition
   b5: {
-    rdvMonth: 8, revenue: 160, rating: 0, loyalClients: 2,
-    satisfaction: { ponctualite: 90, qualite: 75, accueil: 88, proprete: 92 },
+    rdvMonth: 0, revenue: 0, rating: 0, loyalClients: 0,
+    satisfaction: { ponctualite: 0, qualite: 0, accueil: 0, proprete: 0 },
     revenueWeek: [
-      { day: 'Lun', v: 20 }, { day: 'Mar', v: 30 }, { day: 'Mer', v: 25 },
-      { day: 'Jeu', v: 35 }, { day: 'Ven', v: 30 }, { day: 'Sam', v: 20 }, { day: 'Dim', v: 0 },
+      { day: 'Lun', v: 0 }, { day: 'Mar', v: 0 }, { day: 'Mer', v: 0 },
+      { day: 'Jeu', v: 0 }, { day: 'Ven', v: 0 }, { day: 'Sam', v: 0 }, { day: 'Dim', v: 0 },
     ],
-    topService: 'Coupe',
+    topService: '—',
   },
   b6: {
-    rdvMonth: 5, revenue: 100, rating: 0, loyalClients: 1,
-    satisfaction: { ponctualite: 85, qualite: 70, accueil: 90, proprete: 88 },
+    rdvMonth: 0, revenue: 0, rating: 0, loyalClients: 0,
+    satisfaction: { ponctualite: 0, qualite: 0, accueil: 0, proprete: 0 },
     revenueWeek: [
-      { day: 'Lun', v: 15 }, { day: 'Mar', v: 20 }, { day: 'Mer', v: 20 },
-      { day: 'Jeu', v: 25 }, { day: 'Ven', v: 20 }, { day: 'Sam', v: 0 }, { day: 'Dim', v: 0 },
+      { day: 'Lun', v: 0 }, { day: 'Mar', v: 0 }, { day: 'Mer', v: 0 },
+      { day: 'Jeu', v: 0 }, { day: 'Ven', v: 0 }, { day: 'Sam', v: 0 }, { day: 'Dim', v: 0 },
     ],
-    topService: 'Coupe',
+    topService: '—',
   },
 }
 

@@ -9,7 +9,7 @@ const PERIODS = ['day','week','month']
 const PERIOD_LABELS = { day: "Aujourd'hui", week: 'Cette semaine', month: 'Ce mois' }
 
 // Simulated J-1 comparison data
-const PREV = { day: { revenue: 290, appointments: 10 }, week: { revenue: 1540, appointments: 58 }, month: { revenue: 7600, appointments: 245 } }
+const PREV = { day: { revenue: 0, appointments: 0 }, week: { revenue: 0, appointments: 0 }, month: { revenue: 0, appointments: 0 } }
 
 const KPI_CONFIG = [
   { key: 'revenue',      label: "Chiffre d'affaires", icon: TrendingUp, fmt: v => `${v.toLocaleString('fr-FR')}€`, color: '#D4AF37', bg: 'rgba(212,175,55,0.1)' },

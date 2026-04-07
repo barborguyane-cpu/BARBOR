@@ -9,14 +9,7 @@ const LEAVE_TYPES = {
   rtt:       { label: 'RTT',            color: 'text-purple-400', bg: 'bg-purple-400/10' },
 }
 
-const INIT_REQUESTS = [
-  { id: 'c1', barberId: 'b1', type: 'paye',      from: '2025-05-05', to: '2025-05-12', days: 6, reason: 'Vacances en famille',   status: 'pending'  },
-  { id: 'c2', barberId: 'b2', type: 'maladie',   from: '2025-04-14', to: '2025-04-16', days: 3, reason: 'Arrêt médical',          status: 'approved' },
-  { id: 'c3', barberId: 'b4', type: 'rtt',        from: '2025-04-25', to: '2025-04-25', days: 1, reason: 'RTT récupération',       status: 'pending'  },
-  { id: 'c4', barberId: 'b3', type: 'paye',      from: '2025-06-01', to: '2025-06-14', days: 10, reason: 'Voyage',                status: 'pending'  },
-  { id: 'c5', barberId: 'b1', type: 'sansSolde', from: '2025-03-10', to: '2025-03-12', days: 3, reason: 'Personnel',              status: 'rejected' },
-  { id: 'c6', barberId: 'b2', type: 'paye',      from: '2025-07-14', to: '2025-07-25', days: 8, reason: 'Congés d\'été',          status: 'pending'  },
-]
+const INIT_REQUESTS = []
 
 // Days used per barber (approved)
 function daysUsed(requests, barberId) {

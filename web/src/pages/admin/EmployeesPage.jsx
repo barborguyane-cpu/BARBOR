@@ -3,12 +3,8 @@ import { Star, TrendingUp, Users, Plus, X, Edit2, Trash2, Phone, Mail, Calendar,
 import { BARBERS as INITIAL_BARBERS } from '../../data/mockData.js'
 
 const INIT_PERF = {
-  b1: { clients: 67, revenue: 1640 },
-  b2: { clients: 48, revenue: 1220 },
-  b3: { clients: 39, revenue: 980  },
-  b4: { clients: 74, revenue: 1890 },
-  b5: { clients: 8,  revenue: 160  },
-  b6: { clients: 5,  revenue: 100  },
+  b5: { clients: 0, revenue: 0 },
+  b6: { clients: 0, revenue: 0 },
 }
 
 const ROLE_CONFIG = {
