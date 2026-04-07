@@ -2,10 +2,9 @@
 export const BARBERS = [
   {
     id: 'b1', firstName: 'Christopher', lastName: 'CKC',
-    specialty: 'Coiffeur Professionnel', rating: 0, reviews: 0,
+    specialty: 'Barber Principal', rating: 0, reviews: 0,
     available: true, avatar: 'CK', role: 'manager',
     age: null, phone: '', email: '', joinDate: '2024-01-01',
-    adminOnly: true, // gérant — visible uniquement côté admin
   },
   {
     id: 'b5', firstName: 'Chadrac', lastName: 'AUBAUNA',

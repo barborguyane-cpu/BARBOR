@@ -367,7 +367,7 @@ function BarbersSection({ onBook }) {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          {BARBERS.filter(b => !b.adminOnly).map((b, i) => (
+          {BARBERS.map((b, i) => (
             <button key={b.id} onClick={onBook}
               className={`reveal delay-${i+1} group relative rounded-2xl overflow-hidden border border-white/5
                 hover:border-gold/40 transition-all duration-300 hover:-translate-y-1`}
