@@ -41,12 +41,31 @@ const BARBER_STATS = {
     ],
     topService: 'Art capillaire',
   },
+  // Apprentis — stats en cours d'acquisition
+  b5: {
+    rdvMonth: 8, revenue: 160, rating: 0, loyalClients: 2,
+    satisfaction: { ponctualite: 90, qualite: 75, accueil: 88, proprete: 92 },
+    revenueWeek: [
+      { day: 'Lun', v: 20 }, { day: 'Mar', v: 30 }, { day: 'Mer', v: 25 },
+      { day: 'Jeu', v: 35 }, { day: 'Ven', v: 30 }, { day: 'Sam', v: 20 }, { day: 'Dim', v: 0 },
+    ],
+    topService: 'Coupe',
+  },
+  b6: {
+    rdvMonth: 5, revenue: 100, rating: 0, loyalClients: 1,
+    satisfaction: { ponctualite: 85, qualite: 70, accueil: 90, proprete: 88 },
+    revenueWeek: [
+      { day: 'Lun', v: 15 }, { day: 'Mar', v: 20 }, { day: 'Mer', v: 20 },
+      { day: 'Jeu', v: 25 }, { day: 'Ven', v: 20 }, { day: 'Sam', v: 0 }, { day: 'Dim', v: 0 },
+    ],
+    topService: 'Coupe',
+  },
 }
 
-// Ranking by revenue
-const RANKED = [...BARBERS].sort((a, b) =>
-  BARBER_STATS[b.id].revenue - BARBER_STATS[a.id].revenue
-)
+// Ranking by revenue — barbers only (apprentices separate)
+const RANKED = [...BARBERS]
+  .filter(b => BARBER_STATS[b.id])
+  .sort((a, b) => BARBER_STATS[b.id].revenue - BARBER_STATS[a.id].revenue)
 
 const MEDALS = ['🥇', '🥈', '🥉']
 
