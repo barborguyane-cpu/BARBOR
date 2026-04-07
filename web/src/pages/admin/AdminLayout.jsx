@@ -20,7 +20,7 @@ const NAV = [
 function SideNav({ onClose, onLogout }) {
   return (
     <>
-      <div className="p-5 border-b border-white/8 flex items-center justify-between">
+      <div className="p-5 border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
             <img src="/logo.png" alt="" className="w-6 h-6 object-contain"
@@ -77,7 +77,7 @@ function SideNav({ onClose, onLogout }) {
         ))}
       </nav>
 
-      <div className="p-3 border-t border-white/8">
+      <div className="p-3 border-t border-white/10">
         <button onClick={onLogout}
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-red-400 hover:bg-red-500/10 w-full text-sm font-semibold transition-all">
           <LogOut size={17} /> Déconnexion
@@ -93,7 +93,7 @@ export function AdminLayout({ onLogout }) {
   return (
     <div className="min-h-screen bg-black flex">
       {/* Sidebar — desktop */}
-      <aside className="hidden md:flex flex-col w-60 bg-[#0A0A0A] border-r border-white/8 shrink-0">
+      <aside className="hidden md:flex flex-col w-60 bg-[#0A0A0A] border-r border-white/10 shrink-0">
         <SideNav onLogout={onLogout} />
       </aside>
 
@@ -101,7 +101,7 @@ export function AdminLayout({ onLogout }) {
       {open && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setOpen(false)} />
-          <aside className="relative w-64 bg-[#0A0A0A] border-r border-white/8 flex flex-col">
+          <aside className="relative w-64 bg-[#0A0A0A] border-r border-white/10 flex flex-col">
             <SideNav onClose={() => setOpen(false)} onLogout={onLogout} />
           </aside>
         </div>
@@ -110,7 +110,7 @@ export function AdminLayout({ onLogout }) {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile topbar */}
-        <header className="md:hidden sticky top-0 z-40 bg-[#0A0A0A]/95 backdrop-blur border-b border-white/8 px-4 py-3 flex items-center justify-between">
+        <header className="md:hidden sticky top-0 z-40 bg-[#0A0A0A]/95 backdrop-blur border-b border-white/10 px-4 py-3 flex items-center justify-between">
           <button onClick={() => setOpen(true)} className="text-white/60 hover:text-white transition-colors">
             <Menu size={22} />
           </button>

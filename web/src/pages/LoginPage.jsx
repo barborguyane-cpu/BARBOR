@@ -42,7 +42,7 @@ export function LoginPage({ onLogin }) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handle} className="space-y-4 bg-[#0D0D0D] border border-white/8 rounded-2xl p-6">
+        <form onSubmit={handle} className="space-y-4 bg-[#0D0D0D] border border-white/10 rounded-2xl p-6">
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-red-400 text-sm">
               Identifiants incorrects.
