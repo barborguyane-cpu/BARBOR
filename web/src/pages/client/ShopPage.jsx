@@ -9,7 +9,7 @@ const CATS = [
   { key: 'accessoires', label: 'Accessoires' },
 ]
 
-export function ShopPage() {
+export function ShopPage({ auth, onRequireAuth }) {
   const [cat, setCat]       = useState('all')
   const [cart, setCart]     = useState([])
   const [showCart, setShowCart]   = useState(false)
@@ -34,6 +34,7 @@ export function ShopPage() {
     )
   }
   const checkout = async () => {
+    if (!auth?.loggedIn) { onRequireAuth?.(); return }
     await new Promise(r => setTimeout(r, 800))
     setCart([])
     setShowCart(false)

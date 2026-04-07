@@ -8,7 +8,23 @@ const STATUS_MAP = {
   pending:   { label: 'En attente',cls: 'badge-gold'  },
 }
 
-export function ProfilePage() {
+export function ProfilePage({ auth, onRequireAuth }) {
+  if (!auth?.loggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh] px-6 gap-6">
+        <div className="w-20 h-20 rounded-full bg-gold/10 border-2 border-gold/30 flex items-center justify-center">
+          <span className="text-4xl">👤</span>
+        </div>
+        <div className="text-center">
+          <h2 className="text-xl font-black text-white">Mon Profil</h2>
+          <p className="text-gray-400 text-sm mt-2">Connectez-vous pour accéder à votre espace personnel, votre historique et vos avantages Gold.</p>
+        </div>
+        <button onClick={() => onRequireAuth?.()} className="btn-gold px-8">
+          Se connecter
+        </button>
+      </div>
+    )
+  }
   const menu = [
     { icon: Bell,    label: 'Notifications' },
     { icon: Heart,   label: 'Mes Favoris' },

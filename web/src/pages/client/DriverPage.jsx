@@ -5,7 +5,7 @@ import { SERVICES } from '../../data/mockData.js'
 const DRIVER_SERVICES = SERVICES.filter(s => ['coupe','pack','barbe'].includes(s.category))
 const BASE_FEE = 10, PER_KM = 1.5
 
-export function DriverPage() {
+export function DriverPage({ auth, onRequireAuth }) {
   const [address, setAddress]     = useState('')
   const [service, setService]     = useState(null)
   const [step, setStep]           = useState(0) // 0=form 1=confirm 2=success
@@ -16,6 +16,7 @@ export function DriverPage() {
   const deposit     = Math.round(total * 0.3)
 
   const confirm = async () => {
+    if (!auth?.loggedIn) { onRequireAuth?.(); return }
     setLoading(true)
     await new Promise(r => setTimeout(r, 1200))
     setLoading(false)

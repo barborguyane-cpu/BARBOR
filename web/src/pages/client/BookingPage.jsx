@@ -12,7 +12,7 @@ function genDates() {
   })
 }
 
-export function BookingPage() {
+export function BookingPage({ auth, onRequireAuth }) {
   const [step, setStep]         = useState(0)
   const [barber, setBarber]     = useState(null)
   const [service, setService]   = useState(null)
@@ -23,7 +23,12 @@ export function BookingPage() {
 
   const deposit = service ? Math.round(service.price * 0.3) : 0
 
+  const goToPayment = () => {
+    onRequireAuth?.(() => setStep(3)) || setStep(3)
+  }
+
   const confirm = async () => {
+    if (!auth?.loggedIn) { onRequireAuth?.(); return }
     setLoading(true)
     await new Promise(r => setTimeout(r, 1200))
     setLoading(false)
@@ -193,7 +198,7 @@ export function BookingPage() {
           <div className="flex gap-3 mt-6">
             <button onClick={() => setStep(1)} className="btn-outline flex-1 text-sm">← Retour</button>
             {date && time && (
-              <button onClick={() => setStep(3)} className="btn-gold flex-1 text-sm">Continuer →</button>
+              <button onClick={goToPayment} className="btn-gold flex-1 text-sm">Continuer →</button>
             )}
           </div>
         </div>
