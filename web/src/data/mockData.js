@@ -16,12 +16,16 @@ export const BARBERS = [
 
 // ─── Services ─────────────────────────────────────────────────────────────
 export const SERVICES = [
-  { id: 's1', name: 'Coupe',             price: 20, duration: 30, category: 'coupe', description: 'Coupe précise adaptée à votre style' },
-  { id: 's2', name: 'Coupe + Barbe',     price: 30, duration: 45, category: 'pack',  description: 'Coupe complète avec taille de barbe' },
-  { id: 's3', name: 'Dégradé',           price: 25, duration: 40, category: 'coupe', description: 'Dégradé américain ou bas, rendu impeccable' },
-  { id: 's4', name: 'Rasage',            price: 20, duration: 30, category: 'barbe', description: 'Rasage traditionnel au rasoir droit' },
-  { id: 's5', name: 'Barbe seule',       price: 15, duration: 20, category: 'barbe', description: 'Taille et soin de la barbe' },
-  { id: 's6', name: 'Soin cuir chevelu', price: 25, duration: 30, category: 'soin',  description: 'Traitement nourrissant + massage' },
+  { id: 's1',  name: 'Coupe Simple',         price: 20, duration: 30, category: 'coupe'   },
+  { id: 's2',  name: 'Coupe + Barbe',         price: 30, duration: 45, category: 'pack'    },
+  { id: 's3',  name: 'Coupe Enfant',          price: 15, duration: 25, category: 'coupe'   },
+  { id: 's4',  name: 'Coupe Ciseau + Barbe',  price: 35, duration: 50, category: 'pack'    },
+  { id: 's5',  name: 'Contour Simple',        price: 15, duration: 20, category: 'contour' },
+  { id: 's6',  name: 'Contour + Barbe',       price: 20, duration: 35, category: 'pack'    },
+  { id: 's7',  name: 'Dégradé',               price: 25, duration: 40, category: 'coupe'   },
+  { id: 's8',  name: 'Rasage',                price: 20, duration: 30, category: 'barbe'   },
+  { id: 's9',  name: 'Barbe seule',           price: 15, duration: 20, category: 'barbe'   },
+  { id: 's10', name: 'Art Capillaire',         price: 50, duration: 60, category: 'special' },
 ]
 
 // ─── Produits ─────────────────────────────────────────────────────────────
