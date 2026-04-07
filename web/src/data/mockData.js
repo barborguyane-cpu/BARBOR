@@ -1,8 +1,10 @@
 export const BARBERS = [
-  { id: 'b1', firstName: 'Marcus', lastName: 'DUMONT', specialty: 'Dégradés & Designs', rating: 4.9, reviews: 234, available: true, avatar: 'MD' },
-  { id: 'b2', firstName: 'Jordan', lastName: 'VINCENT', specialty: 'Coupes classiques & Barbe', rating: 4.8, reviews: 189, available: true, avatar: 'JV' },
-  { id: 'b3', firstName: 'Kevin',  lastName: 'PIERRE',  specialty: 'Rasage & Soins', rating: 4.7, reviews: 156, available: false, avatar: 'KP' },
-  { id: 'b4', firstName: 'Théo',   lastName: 'BAMANA',  specialty: 'Art capillaire & Tresses', rating: 4.9, reviews: 312, available: true, avatar: 'TB' },
+  { id: 'b1', firstName: 'Marcus',  lastName: 'DUMONT',          specialty: 'Dégradés & Designs',         rating: 4.9, reviews: 234, available: true,  avatar: 'MD', role: 'barber',     age: 28, phone: '+594 694 11 22 33', email: 'marcus@barbor.gf',  joinDate: '2022-03-01' },
+  { id: 'b2', firstName: 'Jordan',  lastName: 'VINCENT',          specialty: 'Coupes classiques & Barbe',  rating: 4.8, reviews: 189, available: true,  avatar: 'JV', role: 'barber',     age: 31, phone: '+594 694 22 33 44', email: 'jordan@barbor.gf',  joinDate: '2021-09-15' },
+  { id: 'b3', firstName: 'Kevin',   lastName: 'PIERRE',           specialty: 'Rasage & Soins',             rating: 4.7, reviews: 156, available: false, avatar: 'KP', role: 'barber',     age: 26, phone: '+594 694 33 44 55', email: 'kevin@barbor.gf',   joinDate: '2023-01-10' },
+  { id: 'b4', firstName: 'Théo',    lastName: 'BAMANA',           specialty: 'Art capillaire & Tresses',   rating: 4.9, reviews: 312, available: true,  avatar: 'TB', role: 'barber',     age: 34, phone: '+594 694 44 55 66', email: 'theo@barbor.gf',    joinDate: '2020-06-01' },
+  { id: 'b5', firstName: 'Chadrac', lastName: 'AUBAUNA',          specialty: 'Apprenti barber',            rating: 0,   reviews: 0,   available: true,  avatar: 'CA', role: 'apprentice', age: 20, phone: '+594 694 55 66 77', email: 'chadrac@barbor.gf', joinDate: '2025-01-15' },
+  { id: 'b6', firstName: 'Quentin', lastName: 'SALMIER PORTUT',   specialty: 'Apprenti barber',            rating: 0,   reviews: 0,   available: true,  avatar: 'QS', role: 'apprentice', age: 17, phone: '+594 694 66 77 88', email: 'quentin@barbor.gf', joinDate: '2025-02-01' },
 ];
 
 export const SERVICES = [
