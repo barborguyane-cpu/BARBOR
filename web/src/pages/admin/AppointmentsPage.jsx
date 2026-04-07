@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { ChevronLeft, ChevronRight, Plus, X, Check, Trash2, Calendar as CalIcon } from 'lucide-react'
-import { BARBERS, SERVICES } from '../../data/mockData.js'
+import { BARBERS, SERVICES as ALL_SERVICES } from '../../data/mockData.js'
+
+const SERVICES = ALL_SERVICES.filter(s => !s.devis)
 
 // ── Time utils ────────────────────────────────────────────────────────────────
 const toMins  = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m }

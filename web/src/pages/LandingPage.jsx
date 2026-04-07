@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Menu, X, MapPin, Phone, Instagram, Star, ArrowRight, ChevronRight } from 'lucide-react'
+import { Menu, X, MapPin, Phone, Instagram, Star, ArrowRight, ChevronRight, Clock } from 'lucide-react'
 import { useReveal } from '../hooks/useInView.js'
-import { BARBERS, SERVICES, PRODUCTS } from '../data/mockData.js'
+import { BARBERS, SERVICES, PRODUCTS, HOURS } from '../data/mockData.js'
 
 /* ────────────────────────────────────────────────────────
    NAVIGATION
@@ -275,39 +275,63 @@ function ConceptSection() {
 /* ────────────────────────────────────────────────────────
    SERVICES SECTION
 ──────────────────────────────────────────────────────── */
+const SVC_TABS = [
+  { key: 'coupe',   label: 'Coupes',    icon: '✂️' },
+  { key: 'contour', label: 'Contours',  icon: '〽️' },
+  { key: 'barbe',   label: 'Barbes',    icon: '🪒' },
+  { key: 'pack',    label: 'Packs',     icon: '⭐' },
+  { key: 'couleur', label: 'Couleur',   icon: '🎨' },
+  { key: 'soin',    label: 'Soins',     icon: '💆' },
+  { key: 'extra',   label: 'Extras',    icon: '⚡' },
+]
+
 function ServicesSection({ onBook }) {
   const ref = useReveal()
-
-  const icons = { coupe: '✂️', barbe: '🪒', pack: '⭐', soin: '💆' }
+  const [tab, setTab] = useState('coupe')
+  const shown = SERVICES.filter(s => s.category === tab)
 
   return (
     <section id="services" ref={ref} className="relative py-24 px-5 bg-[#030303] overflow-hidden">
       <p className="section-number absolute top-12 right-4 select-none">02</p>
 
       <div className="max-w-lg mx-auto">
-        <div className="reveal mb-12">
+        <div className="reveal mb-10">
           <p className="text-gold text-xs tracking-[5px] uppercase mb-3 font-bold">Prestations</p>
-          <h2 className="display-section text-white">NOS<br/><span className="shimmer-text">SERVICES</span></h2>
+          <h2 className="display-section text-white">NOS<br/><span className="shimmer-text">TARIFS</span></h2>
+          <p className="text-gray-500 text-sm mt-3">Carte Bleue ou Espèces</p>
         </div>
 
-        <div className="space-y-3">
-          {SERVICES.map((s, i) => (
+        {/* Category tabs */}
+        <div className="reveal flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
+          {SVC_TABS.map(t => (
+            <button key={t.key} onClick={() => setTab(t.key)}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wide whitespace-nowrap shrink-0 transition-all ${
+                tab === t.key ? 'bg-gold text-black' : 'bg-[#0D0D0D] border border-white/10 text-gray-400 hover:text-white'
+              }`}>
+              <span>{t.icon}</span> {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Service list */}
+        <div className="space-y-2">
+          {shown.map((s, i) => (
             <button key={s.id} onClick={onBook}
-              className={`reveal delay-${Math.min(i+1,6)} w-full flex items-center gap-5 p-5 rounded-2xl
+              className={`reveal delay-${Math.min(i+1, 5)} w-full flex items-center gap-4 px-5 py-4 rounded-2xl
                 border border-white/5 bg-[#0D0D0D]
                 hover:border-gold/30 hover:bg-[#141414] hover:-translate-y-0.5
                 transition-all duration-300 text-left group`}>
-              <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 text-xl group-hover:bg-gold/20 transition-colors">
-                {icons[s.category] || '✂️'}
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-white text-sm group-hover:text-gold transition-colors truncate">{s.name}</p>
+                <p className="text-gray-600 text-xs mt-0.5">{s.duration} min</p>
               </div>
-              <div className="flex-1">
-                <p className="font-bold text-white text-base group-hover:text-gold transition-colors">{s.name}</p>
-                <p className="text-gray-500 text-sm mt-0.5">{s.description}</p>
-                <p className="text-gray-600 text-xs mt-1">{s.duration} min</p>
-              </div>
-              <div className="text-right shrink-0">
-                <p className="font-display text-3xl text-gold leading-none">{s.price}€</p>
-                <ChevronRight size={16} className="text-gray-600 group-hover:text-gold mt-1 ml-auto transition-colors" />
+              <div className="text-right shrink-0 flex items-center gap-3">
+                {s.devis ? (
+                  <span className="text-gray-400 text-sm font-bold italic">Sur devis</span>
+                ) : (
+                  <p className="font-display text-2xl text-gold leading-none">{s.price}€</p>
+                )}
+                <ChevronRight size={14} className="text-gray-600 group-hover:text-gold transition-colors" />
               </div>
             </button>
           ))}
@@ -511,12 +535,25 @@ function Footer({ onBook }) {
           </p>
         </div>
 
+        {/* Horaires */}
+        <div className="bg-[#0D0D0D] border border-white/5 rounded-2xl p-5 space-y-3">
+          <div className="flex items-center gap-2 mb-4">
+            <Clock size={14} className="text-gold" />
+            <p className="text-gold text-xs font-bold uppercase tracking-[4px]">Horaires</p>
+          </div>
+          {HOURS.schedule.map(h => (
+            <div key={h.days} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
+              <span className="text-gray-400 text-sm">{h.days}</span>
+              <span className={`text-sm font-bold ${h.open ? 'text-gold' : 'text-red-400'}`}>{h.times}</span>
+            </div>
+          ))}
+        </div>
+
         {/* Contact */}
         <div className="space-y-4">
           {[
-            { icon: Phone, text: '+594 694 XX XX XX', href: 'tel:+594694000000' },
-            { icon: MapPin, text: 'Cayenne, Guyane Française', href: '#' },
-            { icon: Instagram, text: '@barbor.guyane', href: '#' },
+            { icon: MapPin,    text: 'Cayenne, Guyane Française', href: '#' },
+            { icon: Instagram, text: '@barbor.guyane',             href: '#' },
           ].map(({ icon: Icon, text, href }) => (
             <a key={text} href={href}
               className="flex items-center gap-4 py-3 border-b border-white/5

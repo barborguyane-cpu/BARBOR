@@ -1,16 +1,24 @@
 import { useState } from 'react'
 import { Check, Star, Clock, ChevronRight, CreditCard } from 'lucide-react'
-import { BARBERS, SERVICES } from '../../data/mockData.js'
+import { BARBERS, SERVICES, HOURS } from '../../data/mockData.js'
 
 const STEPS = ['Barber', 'Service', 'Date & Heure', 'Paiement']
-const TIMES = ['09:00','09:30','10:00','10:30','11:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00']
-const BUSY  = ['10:00','14:30']
+const TIMES = HOURS.slots
+const BUSY  = [] // aucun créneau fictif bloqué
 
+// Génère les 14 prochains jours ouvrables (Mar–Sam)
 function genDates() {
-  return Array.from({ length: 12 }, (_, i) => {
-    const d = new Date(); d.setDate(d.getDate() + i + 1); return d
-  })
+  const dates = []
+  const d = new Date()
+  while (dates.length < 14) {
+    d.setDate(d.getDate() + 1)
+    if (HOURS.openDays.includes(d.getDay())) dates.push(new Date(d))
+  }
+  return dates
 }
+
+// Filtre les services réservables (pas "sur devis")
+const BOOKABLE_SERVICES = SERVICES.filter(s => !s.devis)
 
 export function BookingPage({ auth, onRequireAuth }) {
   const [step, setStep]         = useState(0)
@@ -124,22 +132,21 @@ export function BookingPage({ auth, onRequireAuth }) {
       {step === 1 && (
         <div className="space-y-3">
           <h2 className="text-lg font-bold text-white mb-4">Choisissez votre prestation</h2>
-          {SERVICES.map(s => (
+          {BOOKABLE_SERVICES.map(s => (
             <button key={s.id} onClick={() => { setService(s); setStep(2) }}
               className={`w-full flex items-center gap-4 p-4 rounded-2xl border transition-all text-left
                 hover:scale-[1.01] active:scale-[0.99]
                 ${service?.id === s.id ? 'border-gold bg-gold/5' : 'border-white/10 bg-surface hover:border-gold/40'}`}>
               <div className="flex-1">
                 <p className="font-bold text-white">{s.name}</p>
-                <p className="text-gray-500 text-sm mt-0.5">{s.description}</p>
-                <div className="flex items-center gap-2 mt-2">
+                <div className="flex items-center gap-2 mt-1.5">
                   <Clock size={12} className="text-gray-500" />
                   <span className="text-gray-500 text-xs">{s.duration} min</span>
                 </div>
               </div>
               <div className="text-right shrink-0">
                 <p className="text-2xl font-black text-gold">{s.price}€</p>
-                <p className="text-gray-500 text-xs">acompte {Math.round(s.price*0.3)}€</p>
+                <p className="text-gray-500 text-xs">acompte {Math.round(s.price * 0.3)}€</p>
               </div>
             </button>
           ))}
