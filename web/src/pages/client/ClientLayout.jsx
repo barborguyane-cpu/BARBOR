@@ -1,9 +1,9 @@
-import { Outlet, NavLink } from 'react-router-dom'
-import { Scissors, Calendar, ShoppingBag, Car, User, LogOut, LogIn } from 'lucide-react'
+import { Outlet, NavLink, useNavigate } from 'react-router-dom'
+import { Scissors, Calendar, ShoppingBag, Car, User, LogOut, LogIn, ArrowLeft } from 'lucide-react'
 import { Logo } from '../../components/common/Logo.jsx'
 
 const NAV = [
-  { to: '/',        icon: Scissors,    label: 'Accueil'       },
+  { to: '/home',    icon: Scissors,    label: 'Accueil'       },
   { to: '/booking', icon: Calendar,    label: 'Réserver'      },
   { to: '/shop',    icon: ShoppingBag, label: 'Boutique'      },
   { to: '/driver',  icon: Car,         label: "BARB'DRIVER"   },
@@ -12,16 +12,20 @@ const NAV = [
 
 export function ClientLayout({ auth, onLogout, onLogin }) {
   const isLoggedIn = auth?.loggedIn
+  const nav = useNavigate()
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
       {/* Top bar */}
       <header className="sticky top-0 z-50 bg-navy/90 backdrop-blur border-b border-gold/20 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Logo size={36} variant="gold" />
+          <button onClick={() => nav('/')} className="text-gray-500 hover:text-gold transition-colors p-1">
+            <ArrowLeft size={18} />
+          </button>
+          <Logo size={32} variant="gold" />
           <div>
-            <span className="text-gold font-black tracking-[4px] text-lg">BARB'OR</span>
-            <span className="block text-gray-500 text-xs tracking-[4px]">GUYANE</span>
+            <span className="text-gold font-black tracking-[4px] text-base">BARB'OR</span>
+            <span className="block text-gray-500 text-[9px] tracking-[4px]">GUYANE</span>
           </div>
         </div>
         <div className="flex items-center gap-3">

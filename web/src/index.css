@@ -3,40 +3,157 @@
 @tailwind utilities;
 
 @layer base {
-  * { box-sizing: border-box; }
-  body { background: #0A0A0A; color: #fff; }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #111827; }
-  ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #000; color: #fff; -webkit-font-smoothing: antialiased; }
+
+  /* Premium scrollbar */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 2px; }
+
+  /* Remove default focus outline — add custom */
+  *:focus-visible { outline: 1px solid #D4AF37; outline-offset: 2px; }
 }
 
 @layer components {
+
+  /* ─── Buttons ──────────────────────────────── */
   .btn-gold {
-    @apply bg-gold-gradient text-black font-bold uppercase tracking-widest px-6 py-3 rounded-xl
-           hover:opacity-90 active:scale-95 transition-all duration-200 cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2
+           bg-gold-gradient text-black font-bold uppercase tracking-widest
+           px-8 py-4 rounded-full
+           hover:opacity-90 active:scale-95
+           transition-all duration-300 cursor-pointer;
+  }
+  .btn-pill {
+    @apply inline-flex items-center justify-center gap-2
+           bg-white/8 backdrop-blur border border-white/15 text-white font-semibold
+           px-8 py-3.5 rounded-full
+           hover:bg-white/15 active:scale-95
+           transition-all duration-300 cursor-pointer;
+  }
+  .btn-pill-gold {
+    @apply inline-flex items-center justify-center gap-2
+           bg-gold/10 backdrop-blur border border-gold/40 text-gold font-semibold
+           px-8 py-3.5 rounded-full
+           hover:bg-gold hover:text-black active:scale-95
+           transition-all duration-300 cursor-pointer;
   }
   .btn-outline {
-    @apply border border-gold text-gold font-bold uppercase tracking-widest px-6 py-3 rounded-xl
-           hover:bg-gold hover:text-black transition-all duration-200 cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2
+           border border-gold/50 text-gold font-semibold uppercase tracking-widest
+           px-6 py-3 rounded-full
+           hover:bg-gold hover:text-black active:scale-95
+           transition-all duration-300 cursor-pointer;
   }
+
+  /* ─── Cards ────────────────────────────────── */
   .card {
-    @apply bg-surface rounded-2xl border border-white/5 p-6;
+    @apply bg-[#111111] rounded-2xl border border-white/5 p-6;
   }
   .card-gold {
-    @apply bg-surface rounded-2xl border border-gold/20 p-6;
+    @apply bg-[#111111] rounded-2xl border border-gold/20 p-6;
   }
-  .gold-text {
-    @apply text-gold font-bold;
+  .card-hover {
+    @apply bg-[#111111] rounded-2xl border border-white/5 p-6
+           hover:border-gold/30 hover:bg-[#161616]
+           transition-all duration-300 cursor-pointer;
   }
-  .badge-green  { @apply bg-green-500/15  text-green-400  text-xs font-bold px-2 py-1 rounded-md; }
-  .badge-gold   { @apply bg-gold/15       text-gold       text-xs font-bold px-2 py-1 rounded-md; }
-  .badge-red    { @apply bg-red-500/15    text-red-400    text-xs font-bold px-2 py-1 rounded-md; }
-  .badge-gray   { @apply bg-white/5       text-gray-400   text-xs font-bold px-2 py-1 rounded-md; }
+
+  /* ─── Badges ────────────────────────────────── */
+  .badge-green { @apply bg-green-500/10 text-green-400 text-xs font-bold px-2.5 py-1 rounded-full; }
+  .badge-gold  { @apply bg-gold/10       text-gold      text-xs font-bold px-2.5 py-1 rounded-full; }
+  .badge-red   { @apply bg-red-500/10   text-red-400   text-xs font-bold px-2.5 py-1 rounded-full; }
+  .badge-gray  { @apply bg-white/5      text-gray-400  text-xs font-bold px-2.5 py-1 rounded-full; }
+
+  /* ─── Typography ──────────────────────────── */
+  .display-hero {
+    font-family: 'Bebas Neue', Impact, sans-serif;
+    @apply text-[clamp(3.5rem,14vw,10rem)] leading-none tracking-wide uppercase;
+  }
+  .display-section {
+    font-family: 'Bebas Neue', Impact, sans-serif;
+    @apply text-[clamp(2.5rem,8vw,6rem)] leading-none tracking-wide uppercase;
+  }
+  .section-number {
+    font-family: 'Bebas Neue', Impact, sans-serif;
+    @apply text-[8rem] leading-none text-white/5 select-none;
+  }
+
+  /* ─── Gold text ──────────────────────────── */
+  .gradient-text {
+    background: linear-gradient(135deg, #F0D060, #D4AF37, #A08828);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .shimmer-text {
+    background: linear-gradient(90deg, #A08828, #F0D060, #D4AF37, #A08828);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+  }
+
+  /* ─── Glass morphism ──────────────────── */
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+  .glass-dark {
+    @apply bg-black/60 backdrop-blur-xl border border-white/10;
+  }
+  .glass-gold {
+    @apply bg-gold/5 backdrop-blur-md border border-gold/20;
+  }
+
+  /* ─── Divider ─────────────────────────── */
+  .gold-line {
+    @apply h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent;
+  }
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #F0D060, #D4AF37, #A08828);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ─── Scroll animation classes ──────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Delay utilities */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+/* Hide scrollbar but allow scroll */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar { display: none; }
