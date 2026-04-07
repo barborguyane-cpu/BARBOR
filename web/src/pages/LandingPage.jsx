@@ -101,12 +101,8 @@ function Nav({ onBook }) {
             ))}
           </nav>
 
-          {/* Admin link */}
-          <div className="pt-6 border-t border-white/10 space-y-4">
-            <button onClick={() => { setOpen(false); window.location.href='/admin-login' }}
-              className="text-gray-600 hover:text-gold text-sm tracking-widest uppercase transition-colors">
-              Espace Admin →
-            </button>
+          <div className="pt-6 border-t border-white/10">
+            <p className="text-gray-700 text-xs tracking-widest">BARB'OR GUYANE © 2025</p>
           </div>
         </div>
       </div>

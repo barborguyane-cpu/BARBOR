@@ -3,19 +3,18 @@ import { X, LogIn } from 'lucide-react'
 import { Logo } from './Logo.jsx'
 
 export function LoginModal({ onLogin, onClose }) {
-  const [role, setRole] = useState('client')
   const [loading, setLoading] = useState(false)
 
   const handleLogin = async () => {
     setLoading(true)
     await new Promise(r => setTimeout(r, 800))
     setLoading(false)
-    onLogin(role)
+    onLogin('client')
   }
 
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="w-full max-w-sm bg-[#0D1B2A] border border-gold/30 rounded-3xl p-6 space-y-5 shadow-2xl shadow-gold/10 animate-in slide-in-from-bottom-4 duration-300">
+      <div className="w-full max-w-sm bg-[#0D1B2A] border border-gold/30 rounded-3xl p-6 space-y-5 shadow-2xl shadow-gold/10">
 
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -34,23 +33,8 @@ export function LoginModal({ onLogin, onClose }) {
         {/* Message */}
         <div className="text-center space-y-1 py-2">
           <LogIn size={32} className="text-gold mx-auto" />
-          <h2 className="text-xl font-black text-white">Connexion requise</h2>
-          <p className="text-gray-400 text-sm">Connectez-vous pour continuer</p>
-        </div>
-
-        {/* Role toggle */}
-        <div className="flex bg-black/40 rounded-xl p-1 gap-1">
-          {['client', 'admin'].map(r => (
-            <button
-              key={r}
-              onClick={() => setRole(r)}
-              className={`flex-1 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${
-                role === r ? 'bg-gold text-black' : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              {r === 'client' ? 'Client' : 'Admin'}
-            </button>
-          ))}
+          <h2 className="text-xl font-black text-white">Connexion client</h2>
+          <p className="text-gray-400 text-sm">Connectez-vous pour réserver ou acheter</p>
         </div>
 
         {/* Simulated credentials */}
