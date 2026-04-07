@@ -171,22 +171,20 @@ function Hero({ onBook }) {
           w-[300px] h-[300px] rounded-full bg-gold/5 blur-[80px]" />
       </div>
 
-      {/* Barbershop image (placeholder) */}
-      <div className="absolute top-[8vh] left-1/2 -translate-x-1/2 w-[85vw] max-w-sm">
-        <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black"
-          style={{ aspectRatio: '4/3' }}>
-          {/* Placeholder "barber" image */}
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-            <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-              <img src="/logo.png" alt="" className="w-10 h-10 object-contain opacity-60"
-                onError={e => e.target.style.display='none'} />
-            </div>
-            <p className="text-white/20 text-xs tracking-[4px] uppercase">Votre Photo Ici</p>
-          </div>
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
-        </div>
+      {/* Logo central — grand, lumineux, en haut */}
+      <div className="absolute top-[10vh] left-1/2 -translate-x-1/2 flex flex-col items-center">
+        {/* Halo gold derrière le logo */}
+        <div className="absolute w-48 h-48 rounded-full bg-gold/10 blur-2xl" />
+        <div className="absolute w-36 h-36 rounded-full bg-gold/15 blur-xl" />
+        {/* Ring gold animé */}
+        <div className="absolute w-40 h-40 rounded-full border border-gold/30 animate-pulse" />
+        <div className="absolute w-44 h-44 rounded-full border border-gold/10" />
+        {/* Logo */}
+        <img
+          src="/logo.png"
+          alt="BARB'OR GUYANE"
+          className="relative w-36 h-36 object-contain drop-shadow-2xl"
+        />
       </div>
 
       {/* Hero content — bottom aligned like Blackbox */}
