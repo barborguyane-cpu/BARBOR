@@ -121,9 +121,6 @@ function LogoHero() {
       {/* Halos */}
       <div className="absolute w-52 h-52 rounded-full bg-gold/10 blur-3xl" />
       <div className="absolute w-40 h-40 rounded-full bg-gold/20 blur-xl" />
-      {/* Rings animés */}
-      <div className="absolute w-44 h-44 rounded-full border border-gold/30 animate-pulse" />
-      <div className="absolute w-52 h-52 rounded-full border border-gold/10" />
 
       {/* Logo officiel */}
       {imgOk ? (
