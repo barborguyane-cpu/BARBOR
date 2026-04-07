@@ -190,24 +190,43 @@ function Hero({ onBook }) {
       </div>
 
       {/* Hero content — bottom aligned like Blackbox */}
-      <div className="relative text-center px-5 space-y-6">
-        {/* Slogan — huge bold */}
-        <div className="space-y-0">
-          <p className="display-hero text-white leading-none">
-            UN LIEU.
-          </p>
-          <p className="display-hero text-white leading-none">
-            UN STYLE.
-          </p>
+      <div className="relative text-center px-5 space-y-7">
+
+        {/* Badge premium */}
+        <div className="flex justify-center">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/30 bg-gold/10 text-gold text-[11px] font-bold uppercase tracking-[4px]">
+            ✦ Barbershop Premium · Cayenne
+          </span>
+        </div>
+
+        {/* Nom principal */}
+        <div className="space-y-1">
           <p className="display-hero shimmer-text leading-none">
-            UNE EXPÉRIENCE.
+            BARB'OR
           </p>
+          <p className="display-hero text-white leading-none">
+            GUYANE
+          </p>
+        </div>
+
+        {/* Slogan séparé par une ligne gold */}
+        <div className="flex items-center gap-4 justify-center">
+          <div className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-transparent to-gold/50" />
+          <p className="text-gray-300 text-base sm:text-lg font-light tracking-[3px] uppercase italic">
+            La qualité en plus.
+          </p>
+          <div className="h-px flex-1 max-w-[60px] bg-gradient-to-l from-transparent to-gold/50" />
         </div>
 
         {/* CTA */}
         <button onClick={onBook} className="btn-pill text-base px-10 py-4 font-semibold tracking-wider">
           Prendre rendez-vous
         </button>
+
+        {/* Horaires rapides */}
+        <p className="text-gray-600 text-xs tracking-widest uppercase">
+          Mar – Sam · 10h–15h &nbsp;•&nbsp; 16h–20h
+        </p>
       </div>
     </section>
   )
