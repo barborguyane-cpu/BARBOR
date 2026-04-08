@@ -283,7 +283,7 @@ function Hero({ onBook, onDriver, cms }) {
           <button onClick={onDriver}
             className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/15 bg-white/5
               text-white/70 text-sm font-semibold hover:bg-white/10 hover:text-white transition-all duration-300 tracking-wide w-full max-w-xs justify-center">
-            🚗 BARB'DRIVER — Service à domicile
+            BARB'DRIVER — Service à domicile
           </button>
         </div>
 
