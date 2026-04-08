@@ -3,6 +3,18 @@ import { useNavigate } from 'react-router-dom'
 import { Menu, X, MapPin, Phone, Instagram, Star, ArrowRight, ChevronRight, Clock } from 'lucide-react'
 import { useReveal } from '../hooks/useInView.js'
 import { BARBERS, SERVICES, PRODUCTS, HOURS } from '../data/mockData.js'
+import { loadContent } from '../data/siteContent.js'
+
+// Lit le contenu CMS (localStorage → defaults) et reste à jour
+function useSiteContent() {
+  const [c, setC] = useState(() => loadContent())
+  useEffect(() => {
+    const h = () => setC(loadContent())
+    window.addEventListener('barbor_cms_update', h)
+    return () => window.removeEventListener('barbor_cms_update', h)
+  }, [])
+  return c
+}
 
 /* ────────────────────────────────────────────────────────
    NAVIGATION
@@ -113,19 +125,17 @@ function Nav({ onBook }) {
 /* ────────────────────────────────────────────────────────
    LOGO HERO — avec fallback si logo.png absent
 ──────────────────────────────────────────────────────── */
-function LogoHero() {
+function LogoHero({ cms }) {
   const [imgOk, setImgOk] = useState(true)
+  const src = cms?.media?.logoUrl || '/logo.png'
 
   return (
     <div className="absolute top-[10vh] left-1/2 -translate-x-1/2 flex items-center justify-center">
-      {/* Halos */}
-      <div className="absolute w-52 h-52 rounded-full bg-gold/10 blur-3xl" />
-      <div className="absolute w-40 h-40 rounded-full bg-gold/20 blur-xl" />
 
       {/* Logo officiel */}
       {imgOk ? (
         <img
-          src="/logo.png"
+          src={src}
           alt="BARB'OR"
           className="relative w-36 h-36 object-contain drop-shadow-2xl rounded-full"
           onError={() => setImgOk(false)}
@@ -150,9 +160,20 @@ function LogoHero() {
 /* ────────────────────────────────────────────────────────
    HERO — style Blackbox Paris
 ──────────────────────────────────────────────────────── */
-function Hero({ onBook }) {
+function Hero({ onBook, cms }) {
+  const h = cms?.hero || {}
+  const bgImg = cms?.media?.heroImageUrl
+
   return (
     <section id="hero" className="relative min-h-screen flex flex-col items-center justify-end pb-16 overflow-hidden bg-black">
+
+      {/* Hero background image */}
+      {bgImg && (
+        <div className="absolute inset-0 pointer-events-none">
+          <img src={bgImg} alt="" className="w-full h-full object-cover opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
+        </div>
+      )}
 
       {/* V-beam background effect */}
       <div className="absolute inset-0 pointer-events-none">
@@ -209,7 +230,7 @@ function Hero({ onBook }) {
       </div>
 
       {/* Logo central — grand, lumineux, en haut */}
-      <LogoHero />
+      <LogoHero cms={cms} />
 
       {/* Hero content — bottom aligned like Blackbox */}
       <div className="relative text-center px-5 space-y-7">
@@ -217,17 +238,17 @@ function Hero({ onBook }) {
         {/* Badge premium */}
         <div className="flex justify-center">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/30 bg-gold/10 text-gold text-[11px] font-bold uppercase tracking-[4px]">
-            ✦ Barbershop Premium · Cayenne
+            ✦ {h.badge || 'Barbershop Premium · Cayenne'}
           </span>
         </div>
 
         {/* Nom principal */}
         <div className="space-y-1">
           <p className="display-hero shimmer-text leading-none">
-            BARB'OR
+            {h.line1 || "BARB'OR"}
           </p>
           <p className="display-hero text-white leading-none">
-            GUYANE
+            {h.line2 || 'GUYANE'}
           </p>
         </div>
 
@@ -235,19 +256,19 @@ function Hero({ onBook }) {
         <div className="flex items-center gap-4 justify-center">
           <div className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-transparent to-gold/50" />
           <p className="text-gray-300 text-base sm:text-lg font-light tracking-[3px] uppercase italic">
-            La qualité en plus.
+            {h.slogan || 'La qualité en plus.'}
           </p>
           <div className="h-px flex-1 max-w-[60px] bg-gradient-to-l from-transparent to-gold/50" />
         </div>
 
         {/* CTA */}
         <button onClick={onBook} className="btn-pill text-base px-10 py-4 font-semibold tracking-wider">
-          Prendre rendez-vous
+          {h.cta || 'Prendre rendez-vous'}
         </button>
 
         {/* Horaires rapides */}
         <p className="text-gray-600 text-xs tracking-widest uppercase">
-          Mar – Sam · 10h–15h &nbsp;•&nbsp; 16h–20h
+          {h.hours || 'Mar – Sam · 10h–15h • 16h–20h'}
         </p>
       </div>
     </section>
@@ -257,8 +278,15 @@ function Hero({ onBook }) {
 /* ────────────────────────────────────────────────────────
    CONCEPT SECTION
 ──────────────────────────────────────────────────────── */
-function ConceptSection() {
+function ConceptSection({ cms }) {
   const ref = useReveal()
+  const co = cms?.concept || {}
+
+  const stats = [
+    { value: co.stat1v || '4.9', label: co.stat1l || 'Note client', suffix: '★' },
+    { value: co.stat2v || '500', label: co.stat2l || 'Clients',     suffix: '+' },
+    { value: co.stat3v || '100', label: co.stat3l || 'Satisfaction', suffix: '%' },
+  ]
 
   return (
     <section id="concept" ref={ref} className="relative py-24 px-6 bg-black overflow-hidden">
@@ -278,22 +306,16 @@ function ConceptSection() {
 
         <div className="reveal delay-2 space-y-5">
           <p className="text-gray-300 text-lg leading-relaxed font-light">
-            Plus qu'une coupe, une expérience premium. BARB'OR est né d'une vision :
-            apporter l'excellence du grooming international au cœur de la Guyane.
+            {co.text1 || "Plus qu'une coupe, une expérience premium. BARB'OR est né d'une vision : apporter l'excellence du grooming international au cœur de la Guyane."}
           </p>
           <p className="text-gray-500 leading-relaxed">
-            Chaque détail est pensé pour sublimer votre style — de l'accueil premium
-            à la finition parfaite. Nos barbers sont des artistes, votre style est leur toile.
+            {co.text2 || "Chaque détail est pensé pour sublimer votre style — de l'accueil premium à la finition parfaite. Nos barbers sont des artistes, votre style est leur toile."}
           </p>
         </div>
 
         {/* Stats */}
         <div className="reveal delay-3 grid grid-cols-3 gap-4 pt-4">
-          {[
-            { value: '4.9', label: 'Note client', suffix: '★' },
-            { value: '500', label: 'Clients',     suffix: '+' },
-            { value: '100', label: 'Satisfaction', suffix: '%' },
-          ].map(s => (
+          {stats.map(s => (
             <div key={s.label} className="text-center border-l border-gold/20 pl-4">
               <p className="font-display text-4xl text-gold leading-none">{s.value}<span className="text-2xl">{s.suffix}</span></p>
               <p className="text-gray-500 text-xs mt-1 uppercase tracking-wide">{s.label}</p>
@@ -303,8 +325,8 @@ function ConceptSection() {
 
         {/* Quote */}
         <div className="reveal delay-4 glass-gold rounded-2xl p-6">
-          <p className="text-gold font-display text-2xl tracking-wide">"BARB'OR Guyane —</p>
-          <p className="text-white font-display text-2xl tracking-wide">La qualité en plus."</p>
+          <p className="text-gold font-display text-2xl tracking-wide">"{co.quote1 || "BARB'OR Guyane —"}</p>
+          <p className="text-white font-display text-2xl tracking-wide">{co.quote2 || 'La qualité en plus."'}</p>
         </div>
       </div>
 
@@ -391,8 +413,9 @@ function ServicesSection({ onBook }) {
 /* ────────────────────────────────────────────────────────
    BARBERS SECTION
 ──────────────────────────────────────────────────────── */
-function BarbersSection({ onBook }) {
+function BarbersSection({ onBook, cms }) {
   const ref = useReveal()
+  const photos = cms?.media?.photos || {}
 
   return (
     <section id="barbers" ref={ref} className="relative py-24 px-5 bg-black overflow-hidden">
@@ -408,34 +431,46 @@ function BarbersSection({ onBook }) {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          {BARBERS.map((b, i) => (
-            <button key={b.id} onClick={onBook}
-              className={`reveal delay-${i+1} group relative rounded-2xl overflow-hidden border border-white/5
-                hover:border-gold/40 transition-all duration-300 hover:-translate-y-1`}
-              style={{ aspectRatio: '3/4' }}>
-              {/* Photo placeholder */}
-              <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-gold/10 border-2 border-gold/30 flex items-center justify-center">
-                  <span className="font-display text-2xl text-gold">{b.avatar}</span>
+          {BARBERS.map((b, i) => {
+            const photoUrl = photos[b.id]
+            return (
+              <button key={b.id} onClick={onBook}
+                className={`reveal delay-${i+1} group relative rounded-2xl overflow-hidden border border-white/5
+                  hover:border-gold/40 transition-all duration-300 hover:-translate-y-1`}
+                style={{ aspectRatio: '3/4' }}>
+                {/* Photo or placeholder */}
+                {photoUrl ? (
+                  <img src={photoUrl} alt={b.firstName} className="absolute inset-0 w-full h-full object-cover" />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black" />
+                )}
+                {/* Dark overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                {/* Avatar fallback (shown only when no photo) */}
+                {!photoUrl && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-gold/10 border-2 border-gold/30 flex items-center justify-center">
+                      <span className="font-display text-2xl text-gold">{b.avatar}</span>
+                    </div>
+                  </div>
+                )}
+                {/* Bottom info */}
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="font-bold text-white text-sm leading-tight">{b.firstName} {b.lastName}</p>
+                  <p className="text-gray-400 text-xs mt-0.5 leading-tight">{b.specialty}</p>
+                  <div className="flex items-center gap-1 mt-2">
+                    <Star size={10} className="text-gold fill-gold" />
+                    <span className="text-gold text-xs font-bold">{b.rating}</span>
+                    <span className="text-gray-600 text-xs">({b.reviews})</span>
+                  </div>
                 </div>
-              </div>
-              {/* Bottom info */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent">
-                <p className="font-bold text-white text-sm leading-tight">{b.firstName} {b.lastName}</p>
-                <p className="text-gray-400 text-xs mt-0.5 leading-tight">{b.specialty}</p>
-                <div className="flex items-center gap-1 mt-2">
-                  <Star size={10} className="text-gold fill-gold" />
-                  <span className="text-gold text-xs font-bold">{b.rating}</span>
-                  <span className="text-gray-600 text-xs">({b.reviews})</span>
-                </div>
-              </div>
-              {/* Available dot */}
-              {b.available && (
-                <div className="absolute top-3 right-3 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-black" />
-              )}
-            </button>
-          ))}
+                {/* Available dot */}
+                {b.available && (
+                  <div className="absolute top-3 right-3 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-black" />
+                )}
+              </button>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -557,14 +592,28 @@ function BookingCTA({ onBook }) {
 /* ────────────────────────────────────────────────────────
    FOOTER
 ──────────────────────────────────────────────────────── */
-function Footer({ onBook }) {
+function Footer({ onBook, cms }) {
+  const ct = cms?.contact || {}
+  const logoUrl = cms?.media?.logoUrl || '/logo.png'
+  const address   = ct.address   || 'Cayenne, Guyane Française'
+  const instagram = ct.instagram || '@barbor.guyane'
+  const whatsapp  = ct.whatsapp  || '594694000000'
+  const mapsUrl   = ct.maps      || '#'
+  const phone     = ct.phone     || ''
+
+  const contactLinks = [
+    { icon: MapPin,    text: address,   href: mapsUrl   },
+    { icon: Instagram, text: instagram, href: `https://instagram.com/${instagram.replace('@','')}` },
+    ...(phone ? [{ icon: Phone, text: phone, href: `tel:${phone}` }] : []),
+  ]
+
   return (
     <footer id="footer" className="bg-[#050505] border-t border-white/5 px-6 py-16 space-y-12">
       <div className="max-w-lg mx-auto space-y-10">
         {/* Brand */}
         <div className="text-center space-y-3">
           <div className="flex justify-center">
-            <img src="/logo.png" alt="BARB'OR" className="h-16 w-16 object-contain"
+            <img src={logoUrl} alt="BARB'OR" className="h-16 w-16 object-contain"
               onError={e => e.target.style.display='none'} />
           </div>
           <div>
@@ -592,11 +641,8 @@ function Footer({ onBook }) {
 
         {/* Contact */}
         <div className="space-y-4">
-          {[
-            { icon: MapPin,    text: 'Cayenne, Guyane Française', href: '#' },
-            { icon: Instagram, text: '@barbor.guyane',             href: '#' },
-          ].map(({ icon: Icon, text, href }) => (
-            <a key={text} href={href}
+          {contactLinks.map(({ icon: Icon, text, href }) => (
+            <a key={text} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer"
               className="flex items-center gap-4 py-3 border-b border-white/5
                 text-gray-400 hover:text-gold transition-colors group">
               <Icon size={18} className="text-gold/60 group-hover:text-gold transition-colors" />
@@ -607,7 +653,7 @@ function Footer({ onBook }) {
         </div>
 
         {/* WhatsApp */}
-        <a href="https://wa.me/594694000000" target="_blank" rel="noreferrer"
+        <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer"
           className="flex items-center justify-center gap-3 w-full py-4 rounded-full
             border border-green-500/30 bg-green-500/5 text-green-400
             hover:bg-green-500/10 transition-all duration-300 font-semibold tracking-wide">
@@ -639,6 +685,7 @@ function Footer({ onBook }) {
 ──────────────────────────────────────────────────────── */
 export function LandingPage({ onRequireAuth }) {
   const nav = useNavigate()
+  const cms = useSiteContent()
 
   const goBook  = () => nav('/booking')
   const goShop  = () => nav('/shop')
@@ -646,13 +693,13 @@ export function LandingPage({ onRequireAuth }) {
   return (
     <div className="bg-black">
       <Nav onBook={goBook} />
-      <Hero onBook={goBook} />
-      <ConceptSection />
+      <Hero onBook={goBook} cms={cms} />
+      <ConceptSection cms={cms} />
       <ServicesSection onBook={goBook} />
-      <BarbersSection onBook={goBook} />
+      <BarbersSection onBook={goBook} cms={cms} />
       <ShopSection onShop={goShop} />
       <BookingCTA onBook={goBook} />
-      <Footer onBook={goBook} />
+      <Footer onBook={goBook} cms={cms} />
     </div>
   )
 }

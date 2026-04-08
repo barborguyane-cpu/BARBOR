@@ -1,7 +1,7 @@
 import { Outlet, NavLink } from 'react-router-dom'
 import {
   LayoutDashboard, Calendar, Users, Package, UserCheck,
-  LogOut, Menu, X, Clock, Palmtree, BarChart2
+  LogOut, Menu, X, Clock, Palmtree, BarChart2, Globe
 } from 'lucide-react'
 import { useState } from 'react'
 import { Logo } from '../../components/common/Logo.jsx'
@@ -15,6 +15,7 @@ const NAV = [
   { to: '/admin/stats',        icon: BarChart2,       label: 'Stats Barbers'             },
   { to: '/admin/products',     icon: Package,         label: 'Produits & Stock'          },
   { to: '/admin/clients',      icon: UserCheck,       label: 'Clients'                   },
+  { to: '/admin/site',         icon: Globe,           label: 'Éditeur du site'           },
 ]
 
 function SideNav({ onClose, onLogout }) {
@@ -65,7 +66,19 @@ function SideNav({ onClose, onLogout }) {
         ))}
 
         <p className="text-[10px] text-gray-700 uppercase tracking-[3px] px-3 pt-4 pb-1">Commerce</p>
-        {NAV.slice(6).map(({ to, icon: Icon, label, end }) => (
+        {NAV.slice(6, 8).map(({ to, icon: Icon, label, end }) => (
+          <NavLink key={to} to={to} end={end} onClick={onClose}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm transition-all ${
+                isActive ? 'bg-gold text-black' : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`
+            }>
+            <Icon size={17} /> {label}
+          </NavLink>
+        ))}
+
+        <p className="text-[10px] text-gray-700 uppercase tracking-[3px] px-3 pt-4 pb-1">Site web</p>
+        {NAV.slice(8).map(({ to, icon: Icon, label, end }) => (
           <NavLink key={to} to={to} end={end} onClick={onClose}
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm transition-all ${
