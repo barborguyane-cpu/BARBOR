@@ -21,7 +21,8 @@ import { ClientsPage }      from './pages/admin/ClientsPage.jsx'
 import { PointagePage }     from './pages/admin/PointagePage.jsx'
 import { CongesPage }       from './pages/admin/CongesPage.jsx'
 import { StatsPage }        from './pages/admin/StatsPage.jsx'
-import { SiteEditorPage }  from './pages/admin/SiteEditorPage.jsx'
+import { SiteEditorPage }    from './pages/admin/SiteEditorPage.jsx'
+import { ReviewsAdminPage } from './pages/admin/ReviewsAdminPage.jsx'
 
 // Guard: redirects to /admin-login if not authenticated as admin
 function AdminGuard({ auth, children }) {
@@ -86,6 +87,7 @@ export default function App() {
           <Route path="products"      element={<ProductsPage />} />
           <Route path="clients"       element={<ClientsPage />} />
           <Route path="site"          element={<SiteEditorPage />} />
+          <Route path="reviews"       element={<ReviewsAdminPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

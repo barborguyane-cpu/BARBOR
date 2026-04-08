@@ -1,9 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Menu, X, MapPin, Phone, Instagram, Star, ArrowRight, ChevronRight, Clock } from 'lucide-react'
+import { Menu, X, MapPin, Phone, Instagram, Star, ArrowRight, ChevronRight, Clock, Send } from 'lucide-react'
 import { useReveal } from '../hooks/useInView.js'
 import { BARBERS, SERVICES, PRODUCTS, HOURS } from '../data/mockData.js'
 import { loadContent } from '../data/siteContent.js'
+import { loadReviews, addReview } from '../data/reviewsData.js'
+
+// Lit les avis site et reste à jour
+function useSiteReviews() {
+  const [reviews, setReviews] = useState(() => loadReviews())
+  useEffect(() => {
+    const h = () => setReviews(loadReviews())
+    window.addEventListener('barbor_reviews_update', h)
+    return () => window.removeEventListener('barbor_reviews_update', h)
+  }, [])
+  return reviews
+}
 
 // Lit le contenu CMS (localStorage → defaults) et reste à jour
 function useSiteContent() {
@@ -465,7 +477,7 @@ function BarbersSection({ onBook, cms }) {
 }
 
 /* ────────────────────────────────────────────────────────
-   REVIEWS SECTION — Avis Google
+   REVIEWS SECTION — Avis Google + Avis site
 ──────────────────────────────────────────────────────── */
 const GOOGLE_REVIEWS = [
   { name: 'Curtis Causse',    initial: 'C', color: '#E91E63', stars: 5, date: 'il y a un an',    text: 'Meilleur coiffeur de guyane aucun doute la dessus. Prix complètement en accord avec la qualité de coupe. Le best pour moi' },
@@ -477,81 +489,221 @@ const GOOGLE_REVIEWS = [
   { name: 'Rs6 Black',        initial: 'R', color: '#4CAF50', stars: 5, date: 'il y a 3 mois',   text: 'Meilleure salon de coiffure' },
 ]
 
-function ReviewsSection() {
-  const ref = useReveal()
+const AVATAR_COLORS = ['#E91E63','#FF5722','#2196F3','#00BCD4','#FF9800','#9C27B0','#4CAF50','#F44336','#3F51B5','#009688']
+
+/* Modal formulaire d'avis */
+function ReviewModal({ onClose }) {
+  const [name,    setName]    = useState('')
+  const [stars,   setStars]   = useState(0)
+  const [hover,   setHover]   = useState(0)
+  const [text,    setText]    = useState('')
+  const [done,    setDone]    = useState(false)
+  const [err,     setErr]     = useState('')
+
+  const submit = (e) => {
+    e.preventDefault()
+    if (!name.trim())  return setErr('Merci d\'indiquer votre prénom.')
+    if (stars === 0)   return setErr('Merci de choisir une note.')
+    if (!text.trim())  return setErr('Merci d\'écrire un commentaire.')
+    addReview({ name, stars, text })
+    setDone(true)
+  }
 
   return (
-    <section ref={ref} className="relative py-24 bg-[#030303] overflow-hidden">
-      <p className="section-number absolute top-12 left-4 select-none">04</p>
+    <div className="fixed inset-0 z-[200] flex items-end justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <div className="relative w-full max-w-lg bg-[#0D0D0D] border border-white/10 rounded-3xl p-6 space-y-5"
+        onClick={e => e.stopPropagation()}>
 
-      <div className="max-w-lg mx-auto px-5">
-        <div className="reveal mb-10">
-          <p className="text-gold text-xs tracking-[5px] uppercase mb-3 font-bold">Avis vérifiés</p>
-          <div className="flex items-end justify-between">
-            <h2 className="display-section text-white">NOS<br/><span className="shimmer-text">CLIENTS</span></h2>
-            {/* Google badge */}
-            <div className="flex flex-col items-end gap-1 pb-1">
-              <div className="flex items-center gap-1.5">
-                <span className="text-[11px] font-bold text-gray-400 tracking-wide">Google</span>
-                <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
-                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-              </div>
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={12} className="text-yellow-400 fill-yellow-400" />
-                ))}
-              </div>
-              <span className="text-gray-500 text-[10px]">4.9 · 20+ avis</span>
-            </div>
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-gold text-xs tracking-[4px] uppercase font-bold mb-1">Votre expérience</p>
+            <h3 className="text-white font-bold text-lg">Laisser un avis</h3>
           </div>
+          <button onClick={onClose} className="p-2 text-gray-500 hover:text-white transition-colors">
+            <X size={20} />
+          </button>
         </div>
-      </div>
 
-      {/* Horizontal scroll */}
-      <div className="flex gap-4 overflow-x-auto px-5 pb-4 scrollbar-none snap-x snap-mandatory">
-        {GOOGLE_REVIEWS.map((r, i) => (
-          <div key={i}
-            className={`reveal delay-${Math.min(i+1,5)} shrink-0 snap-start w-72 rounded-2xl border border-white/8 bg-[#0D0D0D]
-              p-5 flex flex-col gap-4 hover:border-gold/30 transition-colors`}>
+        {done ? (
+          /* Succès */
+          <div className="text-center py-8 space-y-3">
+            <div className="text-5xl">🙏</div>
+            <p className="text-white font-bold text-lg">Merci pour votre avis !</p>
+            <p className="text-gray-400 text-sm">Votre témoignage est maintenant visible sur le site.</p>
+            <button onClick={onClose} className="btn-gold mt-4 px-8 py-3">Fermer</button>
+          </div>
+        ) : (
+          <form onSubmit={submit} className="space-y-4">
+            {/* Nom */}
+            <div>
+              <label className="text-gray-400 text-xs uppercase tracking-widest mb-1.5 block">Prénom</label>
+              <input
+                value={name} onChange={e => setName(e.target.value)}
+                placeholder="Votre prénom"
+                className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-white text-sm
+                  placeholder:text-gray-700 focus:outline-none focus:border-gold/50 transition-colors"
+              />
+            </div>
 
             {/* Stars */}
-            <div className="flex items-center gap-0.5">
-              {[...Array(5)].map((_, s) => (
-                <Star key={s} size={12}
-                  className={s < r.stars ? 'text-yellow-400 fill-yellow-400' : 'text-gray-700 fill-gray-700'} />
-              ))}
+            <div>
+              <label className="text-gray-400 text-xs uppercase tracking-widest mb-2 block">Note</label>
+              <div className="flex gap-2">
+                {[1,2,3,4,5].map(s => (
+                  <button key={s} type="button"
+                    onMouseEnter={() => setHover(s)} onMouseLeave={() => setHover(0)}
+                    onClick={() => setStars(s)}
+                    className="transition-transform hover:scale-110">
+                    <Star size={28}
+                      className={(hover || stars) >= s
+                        ? 'text-yellow-400 fill-yellow-400'
+                        : 'text-gray-700 fill-gray-700'} />
+                  </button>
+                ))}
+                {stars > 0 && (
+                  <span className="ml-1 self-center text-gray-400 text-sm">
+                    {['','Mauvais','Passable','Bien','Très bien','Excellent'][stars]}
+                  </span>
+                )}
+              </div>
             </div>
 
-            {/* Text */}
-            <p className="text-gray-300 text-sm leading-relaxed flex-1">"{r.text}"</p>
+            {/* Commentaire */}
+            <div>
+              <label className="text-gray-400 text-xs uppercase tracking-widest mb-1.5 block">Commentaire</label>
+              <textarea
+                value={text} onChange={e => setText(e.target.value)}
+                placeholder="Décrivez votre expérience chez BARB'OR…"
+                rows={3}
+                className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-white text-sm
+                  placeholder:text-gray-700 focus:outline-none focus:border-gold/50 transition-colors resize-none"
+              />
+            </div>
 
-            {/* Reviewer */}
-            <div className="flex items-center gap-3 pt-2 border-t border-white/5">
-              <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-white font-bold text-sm"
-                style={{ background: r.color }}>
-                {r.initial}
-              </div>
-              <div className="min-w-0">
-                <p className="text-white text-sm font-semibold truncate">{r.name}</p>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <svg viewBox="0 0 24 24" className="w-3 h-3 shrink-0" fill="none">
+            {err && <p className="text-red-400 text-xs">{err}</p>}
+
+            <button type="submit"
+              className="w-full btn-gold py-4 flex items-center justify-center gap-2 font-semibold tracking-wide">
+              <Send size={16} /> Publier mon avis
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* Carte d'avis générique */
+function ReviewCard({ r, isGoogle }) {
+  const initial = r.initial || r.name?.[0]?.toUpperCase() || '?'
+  const color   = r.color   || AVATAR_COLORS[r.id % AVATAR_COLORS.length] || '#D4AF37'
+  const date    = r.date    || (r.date_iso ? new Intl.RelativeTimeFormat('fr').format(
+    -Math.round((Date.now() - new Date(r.date_iso)) / 86400000), 'day') : '')
+
+  return (
+    <div className="shrink-0 snap-start w-72 rounded-2xl border border-white/8 bg-[#0D0D0D]
+      p-5 flex flex-col gap-4 hover:border-gold/30 transition-colors">
+
+      {/* Stars + source badge */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-0.5">
+          {[...Array(5)].map((_, s) => (
+            <Star key={s} size={12}
+              className={s < r.stars ? 'text-yellow-400 fill-yellow-400' : 'text-gray-700 fill-gray-700'} />
+          ))}
+        </div>
+        {isGoogle ? (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0" fill="none">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+        ) : (
+          <span className="text-[9px] font-bold text-gold/60 uppercase tracking-wider border border-gold/20 rounded px-1.5 py-0.5">Site</span>
+        )}
+      </div>
+
+      {/* Text */}
+      <p className="text-gray-300 text-sm leading-relaxed flex-1">"{r.text}"</p>
+
+      {/* Reviewer */}
+      <div className="flex items-center gap-3 pt-2 border-t border-white/5">
+        <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-white font-bold text-sm"
+          style={{ background: color }}>
+          {initial}
+        </div>
+        <div className="min-w-0">
+          <p className="text-white text-sm font-semibold truncate">{r.name}</p>
+          <span className="text-gray-600 text-[10px]">{date}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ReviewsSection() {
+  const ref        = useReveal()
+  const siteReviews = useSiteReviews()
+  const [modal, setModal] = useState(false)
+
+  // Mélange : avis site en premier, puis Google
+  const siteCards   = siteReviews.map(r => ({ ...r, _google: false }))
+  const googleCards = GOOGLE_REVIEWS.map(r => ({ ...r, _google: true }))
+  const all         = [...siteCards, ...googleCards]
+
+  return (
+    <>
+      <section ref={ref} className="relative py-24 bg-[#030303] overflow-hidden">
+        <p className="section-number absolute top-12 left-4 select-none">04</p>
+
+        <div className="max-w-lg mx-auto px-5">
+          <div className="reveal mb-10">
+            <p className="text-gold text-xs tracking-[5px] uppercase mb-3 font-bold">Avis vérifiés</p>
+            <div className="flex items-end justify-between">
+              <h2 className="display-section text-white">NOS<br/><span className="shimmer-text">CLIENTS</span></h2>
+              {/* Google badge */}
+              <div className="flex flex-col items-end gap-1 pb-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[11px] font-bold text-gray-400 tracking-wide">Google</span>
+                  <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                     <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
                     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                   </svg>
-                  <span className="text-gray-600 text-[10px]">{r.date}</span>
                 </div>
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={12} className="text-yellow-400 fill-yellow-400" />
+                  ))}
+                </div>
+                <span className="text-gray-500 text-[10px]">4.9 · 20+ avis</span>
               </div>
             </div>
+
+            {/* Bouton laisser un avis */}
+            <button onClick={() => setModal(true)}
+              className="mt-6 flex items-center gap-2 px-5 py-3 rounded-full border border-gold/40 bg-gold/5
+                text-gold text-sm font-semibold hover:bg-gold/10 transition-all duration-300">
+              <Star size={14} className="fill-gold" />
+              Laisser un avis
+            </button>
           </div>
-        ))}
-      </div>
-    </section>
+        </div>
+
+        {/* Horizontal scroll */}
+        <div className="flex gap-4 overflow-x-auto px-5 pb-4 scrollbar-none snap-x snap-mandatory">
+          {all.map((r, i) => (
+            <ReviewCard key={r.id ?? i} r={r} isGoogle={r._google} />
+          ))}
+        </div>
+      </section>
+
+      {modal && <ReviewModal onClose={() => setModal(false)} />}
+    </>
   )
 }
 
