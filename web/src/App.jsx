@@ -6,7 +6,6 @@ import { LoginPage }    from './pages/LoginPage.jsx'
 import { LoginModal }   from './components/common/LoginModal.jsx'
 
 import { ClientLayout } from './pages/client/ClientLayout.jsx'
-import { HomePage }     from './pages/client/HomePage.jsx'
 import { BookingPage }  from './pages/client/BookingPage.jsx'
 import { ShopPage }     from './pages/client/ShopPage.jsx'
 import { DriverPage }   from './pages/client/DriverPage.jsx'
@@ -56,9 +55,11 @@ export default function App() {
         {/* ── Landing page ── */}
         <Route path="/" element={<LandingPage />} />
 
-        {/* ── Client app (public browse, auth for actions) ── */}
+        {/* ── Ancienne route /home → redirect landing ── */}
+        <Route path="/home" element={<Navigate to="/" replace />} />
+
+        {/* ── Client app ── */}
         <Route element={<ClientLayout auth={auth} onLogout={logout} onLogin={() => setShowLoginModal(true)} />}>
-          <Route path="/home"    element={<HomePage    auth={auth} onRequireAuth={requireAuth} />} />
           <Route path="/booking" element={<BookingPage auth={auth} onRequireAuth={requireAuth} />} />
           <Route path="/shop"    element={<ShopPage    auth={auth} onRequireAuth={requireAuth} />} />
           <Route path="/driver"  element={<DriverPage  auth={auth} onRequireAuth={requireAuth} />} />

@@ -34,6 +34,7 @@ function useSiteContent() {
 function Nav({ onBook }) {
   const [open, setOpen]         = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const nav = useNavigate()
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40)
@@ -42,13 +43,23 @@ function Nav({ onBook }) {
   }, [])
 
   const links = [
-    { label: 'Accueil',    href: '#hero'     },
-    { label: 'La marque',  href: '#concept'  },
-    { label: 'Services',   href: '#services' },
-    { label: 'Nos Barbers',href: '#barbers'  },
-    { label: 'Boutique',   href: '#shop'     },
-    { label: 'Contact',    href: '#footer'   },
+    { label: 'Accueil',        href: '#hero',     anchor: true },
+    { label: 'La marque',      href: '#concept',  anchor: true },
+    { label: 'Services',       href: '#services', anchor: true },
+    { label: 'Nos Barbers',    href: '#barbers',  anchor: true },
+    { label: 'Boutique',       href: '#shop',     anchor: true },
+    { label: 'Contact',        href: '#footer',   anchor: true },
+    { label: "BARB'DRIVER",    href: '/driver',   anchor: false },
   ]
+
+  const handleLink = (l) => {
+    setOpen(false)
+    if (l.anchor) {
+      document.querySelector(l.href)?.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      nav(l.href)
+    }
+  }
 
   const scrollTo = (href) => {
     setOpen(false)
@@ -116,11 +127,15 @@ function Nav({ onBook }) {
           {/* Nav links */}
           <nav className="flex-1 space-y-2">
             {links.map((l, i) => (
-              <button key={l.href} onClick={() => scrollTo(l.href)}
+              <button key={l.href} onClick={() => handleLink(l)}
                 className={`block w-full text-left py-4 border-b border-white/5
                   font-bold text-2xl tracking-wide transition-colors duration-200
-                  ${i === 0 ? 'text-white' : 'text-gray-400 hover:text-white'}`}>
+                  ${l.anchor === false
+                    ? 'text-gold hover:text-gold/80'
+                    : i === 0 ? 'text-white' : 'text-gray-400 hover:text-white'
+                  }`}>
                 {l.label}
+                {!l.anchor && <span className="ml-2 text-base align-middle">→</span>}
               </button>
             ))}
           </nav>
@@ -161,7 +176,7 @@ function LogoHero({ cms }) {
 /* ────────────────────────────────────────────────────────
    HERO — style Blackbox Paris
 ──────────────────────────────────────────────────────── */
-function Hero({ onBook, cms }) {
+function Hero({ onBook, onDriver, cms }) {
   const h = cms?.hero || {}
   const bgImg = cms?.media?.heroImageUrl
 
@@ -260,10 +275,17 @@ function Hero({ onBook, cms }) {
           <div className="h-px flex-1 max-w-[60px] bg-gradient-to-l from-transparent to-gold/50" />
         </div>
 
-        {/* CTA */}
-        <button onClick={onBook} className="btn-pill text-base px-10 py-4 font-semibold tracking-wider">
-          {h.cta || 'Prendre rendez-vous'}
-        </button>
+        {/* CTAs */}
+        <div className="flex flex-col items-center gap-3 w-full">
+          <button onClick={onBook} className="btn-pill text-base px-10 py-4 font-semibold tracking-wider w-full max-w-xs">
+            {h.cta || 'Prendre rendez-vous'}
+          </button>
+          <button onClick={onDriver}
+            className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/15 bg-white/5
+              text-white/70 text-sm font-semibold hover:bg-white/10 hover:text-white transition-all duration-300 tracking-wide w-full max-w-xs justify-center">
+            🚗 BARB'DRIVER — Service à domicile
+          </button>
+        </div>
 
         {/* Horaires rapides */}
         <p className="text-gray-600 text-xs tracking-widest uppercase">
@@ -917,13 +939,14 @@ export function LandingPage({ onRequireAuth }) {
   const nav = useNavigate()
   const cms = useSiteContent()
 
-  const goBook  = () => nav('/booking')
-  const goShop  = () => nav('/shop')
+  const goBook   = () => nav('/booking')
+  const goShop   = () => nav('/shop')
+  const goDriver = () => nav('/driver')
 
   return (
     <div className="bg-black">
       <Nav onBook={goBook} />
-      <Hero onBook={goBook} cms={cms} />
+      <Hero onBook={goBook} onDriver={goDriver} cms={cms} />
       <ConceptSection cms={cms} />
       <ServicesSection onBook={goBook} />
       <BarbersSection onBook={goBook} cms={cms} />

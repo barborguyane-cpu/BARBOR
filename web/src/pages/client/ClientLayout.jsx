@@ -1,13 +1,12 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import { Scissors, Calendar, ShoppingBag, Car, User, LogOut, LogIn, ArrowLeft } from 'lucide-react'
-import { Logo } from '../../components/common/Logo.jsx'
+import { Home, Calendar, ShoppingBag, Car, User } from 'lucide-react'
 
 const NAV = [
-  { to: '/home',    icon: Scissors,    label: 'Accueil'       },
-  { to: '/booking', icon: Calendar,    label: 'Réserver'      },
-  { to: '/shop',    icon: ShoppingBag, label: 'Boutique'      },
-  { to: '/driver',  icon: Car,         label: "BARB'DRIVER"   },
-  { to: '/profile', icon: User,        label: 'Mon Profil'    },
+  { to: '/',        icon: Home,        label: 'Accueil',      end: true },
+  { to: '/booking', icon: Calendar,    label: 'Réserver'               },
+  { to: '/shop',    icon: ShoppingBag, label: 'Boutique'               },
+  { to: '/driver',  icon: Car,         label: "BARB'DRIVER"            },
+  { to: '/profile', icon: User,        label: 'Mon Profil'             },
 ]
 
 export function ClientLayout({ auth, onLogout, onLogin }) {
@@ -16,74 +15,52 @@ export function ClientLayout({ auth, onLogout, onLogin }) {
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
-      {/* Top bar */}
-      <header className="sticky top-0 z-50 bg-navy/90 backdrop-blur border-b border-gold/20 px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button onClick={() => nav('/')} className="text-gray-500 hover:text-gold transition-colors p-1">
-            <ArrowLeft size={18} />
-          </button>
-          <Logo size={32} variant="gold" />
+      {/* Top bar — style premium cohérent */}
+      <header className="sticky top-0 z-50 bg-black/95 backdrop-blur-xl border-b border-white/8 px-5 py-3 flex items-center justify-between">
+        <button onClick={() => nav('/')} className="flex items-center gap-2.5 group">
+          <img src="/logo.png" alt="" className="h-8 w-8 object-contain"
+            onError={e => e.target.style.display='none'} />
           <div>
-            <span className="text-gold font-black tracking-[4px] text-base">BARB'OR</span>
-            <span className="block text-gray-500 text-[9px] tracking-[4px]">GUYANE</span>
+            <p className="font-display text-gold text-base tracking-[4px] leading-none">BARB'OR</p>
+            <p className="text-gray-600 text-[9px] tracking-[3px] uppercase leading-none mt-0.5">Guyane</p>
           </div>
-        </div>
-        <div className="flex items-center gap-3">
-          {isLoggedIn ? (
-            <>
-              <div className="w-9 h-9 rounded-full bg-gold flex items-center justify-center font-black text-black text-sm">JM</div>
-              <button onClick={onLogout} className="text-gray-400 hover:text-red-400 transition-colors" title="Se déconnecter">
-                <LogOut size={18} />
-              </button>
-            </>
-          ) : (
-            <button
-              onClick={onLogin}
-              className="flex items-center gap-2 border border-gold/50 text-gold text-xs font-bold px-4 py-2 rounded-xl
-                         hover:bg-gold hover:text-black transition-all duration-200"
-            >
-              <LogIn size={14} />
-              Connexion
-            </button>
-          )}
-        </div>
+        </button>
+
+        {isLoggedIn ? (
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-gold flex items-center justify-center font-black text-black text-xs">
+              {auth.name?.[0] || 'C'}
+            </div>
+          </div>
+        ) : (
+          <button onClick={onLogin}
+            className="text-xs font-bold text-gold border border-gold/40 px-4 py-2 rounded-full
+              hover:bg-gold hover:text-black transition-all duration-200 tracking-wide">
+            Connexion
+          </button>
+        )}
       </header>
 
-      {/* Guest banner */}
-      {!isLoggedIn && (
-        <div className="bg-gold/10 border-b border-gold/20 px-4 py-2 flex items-center justify-between">
-          <p className="text-gold/80 text-xs font-semibold">
-            👋 Bienvenue ! Connectez-vous pour réserver ou acheter.
-          </p>
-          <button onClick={onLogin} className="text-gold text-xs font-black hover:underline">
-            Se connecter →
-          </button>
-        </div>
-      )}
-
       {/* Content */}
-      <main className="flex-1">
+      <main className="flex-1 pb-20">
         <Outlet />
       </main>
 
-      {/* Bottom nav */}
-      <nav className="sticky bottom-0 bg-surface border-t border-gold/20 flex z-40">
-        {NAV.map(({ to, icon: Icon, label }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={to === '/'}
+      {/* Bottom nav — style premium */}
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-black/95 backdrop-blur-xl border-t border-white/8 flex">
+        {NAV.map(({ to, icon: Icon, label, end }) => (
+          <NavLink key={to} to={to} end={end}
             className={({ isActive }) =>
-              `flex-1 flex flex-col items-center py-3 gap-1 text-xs font-semibold transition-colors ${
-                isActive ? 'text-gold' : 'text-gray-500 hover:text-gray-300'
+              `flex-1 flex flex-col items-center py-3 gap-1 transition-colors ${
+                isActive ? 'text-gold' : 'text-gray-600 hover:text-gray-300'
               }`
-            }
-          >
-            <Icon size={20} />
-            <span className="text-[10px] tracking-wide">{label}</span>
+            }>
+            <Icon size={19} />
+            <span className="text-[9px] tracking-wide font-semibold">{label}</span>
           </NavLink>
         ))}
       </nav>
     </div>
   )
 }
+
