@@ -377,12 +377,12 @@ function ServicesSection({ onBook }) {
 
         {/* Service list */}
         <div className="space-y-2">
-          {shown.map((s, i) => (
+          {shown.map((s) => (
             <button key={s.id} onClick={onBook}
-              className={`reveal delay-${Math.min(i+1, 5)} w-full flex items-center gap-4 px-5 py-4 rounded-2xl
+              className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl
                 border border-white/5 bg-[#0D0D0D]
                 hover:border-gold/30 hover:bg-[#141414] hover:-translate-y-0.5
-                transition-all duration-300 text-left group`}>
+                transition-all duration-300 text-left group">
               <div className="flex-1 min-w-0">
                 <p className="font-bold text-white text-sm group-hover:text-gold transition-colors truncate">{s.name}</p>
                 <p className="text-gray-600 text-xs mt-0.5">{s.duration} min</p>
