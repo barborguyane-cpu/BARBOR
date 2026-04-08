@@ -123,16 +123,17 @@ function Nav({ onBook }) {
 }
 
 /* ────────────────────────────────────────────────────────
-   LOGO HERO — avec fallback si logo.png absent
+   LOGO HERO — affiché uniquement si une image est disponible
 ──────────────────────────────────────────────────────── */
 function LogoHero({ cms }) {
   const [imgOk, setImgOk] = useState(true)
-  const src = cms?.media?.logoUrl || '/logo.png'
+  const src = cms?.media?.logoUrl
+
+  // Pas de logo uploadé → rien
+  if (!src) return null
 
   return (
     <div className="absolute top-[10vh] left-1/2 -translate-x-1/2 flex items-center justify-center">
-
-      {/* Logo officiel */}
       {imgOk ? (
         <img
           src={src}
@@ -140,19 +141,7 @@ function LogoHero({ cms }) {
           className="relative w-36 h-36 object-contain drop-shadow-2xl rounded-full"
           onError={() => setImgOk(false)}
         />
-      ) : (
-        /* Fallback gold si logo.png manquant */
-        <div className="relative w-36 h-36 rounded-full bg-gradient-to-br from-[#D4AF37] via-[#B8960C] to-[#8B6914]
-          flex flex-col items-center justify-center shadow-2xl border-2 border-gold/50">
-          {/* Poteau de barbier stylisé */}
-          <div className="flex gap-1 mb-1">
-            {['#fff','#1a1a5e','#fff'].map((c, i) => (
-              <div key={i} className="w-1.5 h-8 rounded-full" style={{ background: c, opacity: 0.9 }} />
-            ))}
-          </div>
-          <p className="text-black font-black text-xs tracking-[2px] leading-none mt-1">BARB'OR</p>
-        </div>
-      )}
+      ) : null}
     </div>
   )
 }
