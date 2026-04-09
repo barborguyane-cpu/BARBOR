@@ -825,13 +825,12 @@ function BookingCTA({ onBook }) {
         {/* Features */}
         <div className="reveal delay-3 grid grid-cols-3 gap-4 pt-6">
           {[
-            { icon: '⚡', label: 'Réservation\ninstantanée' },
-            { icon: '💎', label: 'Qualité\ngarantie' },
-            { icon: '🔔', label: 'Rappel\nautomatique' },
-          ].map(f => (
-            <div key={f.label} className="text-center space-y-2">
-              <span className="text-2xl">{f.icon}</span>
-              <p className="text-gray-500 text-xs leading-tight whitespace-pre-line">{f.label}</p>
+            'Réservation\ninstantanée',
+            'Qualité\ngarantie',
+            'Rappel\nautomatique',
+          ].map(label => (
+            <div key={label} className="text-center">
+              <p className="text-gray-500 text-xs leading-tight whitespace-pre-line">{label}</p>
             </div>
           ))}
         </div>
