@@ -21,7 +21,7 @@ export const DEFAULTS = {
     phone:     '0694 25 01 56',
     phone2:    '0594 21 96 33',
     address:   'Cayenne, Guyane Française',
-    instagram: '@barb_or',
+    instagram: '@barb_or_',
     snapchat:  'BARBORGUYANE',
     whatsapp:  '594694250156',
     maps:      'https://maps.app.goo.gl/xEmF7E68H6aULXj89',

@@ -276,7 +276,7 @@ export function SiteEditorPage() {
           <Field label="Adresse" value={data.contact.address}
             onChange={v => set('contact','address',v)} placeholder="Cayenne, Guyane Française" />
           <Field label="Instagram (avec @)" value={data.contact.instagram}
-            onChange={v => set('contact','instagram',v)} placeholder="@barb_or" />
+            onChange={v => set('contact','instagram',v)} placeholder="@barb_or_" />
           <Field label="Snapchat (pseudo)" value={data.contact.snapchat || ''}
             onChange={v => set('contact','snapchat',v)} placeholder="BARBORGUYANE" />
           <Field label="Numéro WhatsApp (sans + ni espaces)"

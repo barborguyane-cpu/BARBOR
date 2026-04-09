@@ -847,7 +847,7 @@ function Footer({ onBook, cms }) {
   const ct = cms?.contact || {}
   const logoUrl    = cms?.media?.logoUrl || '/logo.png'
   const address    = ct.address    || 'Cayenne, Guyane Française'
-  const instagram  = ct.instagram  || '@barb_or'
+  const instagram  = ct.instagram  || '@barb_or_'
   const snapchat   = ct.snapchat   || 'BARBORGUYANE'
   const whatsapp   = ct.whatsapp   || '594694250156'
   const mapsUrl    = ct.maps       || 'https://maps.app.goo.gl/xEmF7E68H6aULXj89'
