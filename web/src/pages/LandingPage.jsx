@@ -732,7 +732,7 @@ function ReviewsSection() {
 /* ────────────────────────────────────────────────────────
    SHOP SECTION
 ──────────────────────────────────────────────────────── */
-function ShopSection({ onShop }) {
+function ShopSection({ onShop, cms }) {
   const ref = useReveal()
   const featured = PRODUCTS.slice(0, 4)
 
@@ -750,16 +750,20 @@ function ShopSection({ onShop }) {
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          {featured.map((p, i) => (
+          {featured.map((p, i) => {
+            const imgUrl = cms?.media?.productImages?.[p.id]
+            return (
             <button key={p.id} onClick={onShop}
               className={`reveal delay-${i+1} group text-left rounded-2xl border border-white/5 bg-[#0D0D0D] overflow-hidden
                 hover:border-gold/30 hover:-translate-y-1 transition-all duration-300`}>
-              {/* Product image placeholder */}
-              <div className="aspect-square bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
-                <span className="text-4xl">
-                  {p.category === 'styling' ? '💈' :
-                   p.category === 'soins'   ? '🧴' : '🛒'}
-                </span>
+              <div className="aspect-square bg-gradient-to-br from-gray-900 to-black flex items-center justify-center overflow-hidden">
+                {imgUrl
+                  ? <img src={imgUrl} alt={p.name} className="w-full h-full object-cover" />
+                  : <span className="text-4xl">
+                      {p.category === 'styling' ? '💈' :
+                       p.category === 'soins'   ? '🧴' : '🛒'}
+                    </span>
+                }
               </div>
               <div className="p-4">
                 <p className="text-white font-bold text-sm leading-tight group-hover:text-gold transition-colors">{p.name}</p>
@@ -773,7 +777,8 @@ function ShopSection({ onShop }) {
                 </div>
               </div>
             </button>
-          ))}
+            )
+          })}
         </div>
 
         <div className="reveal mt-8 text-center">
@@ -982,7 +987,7 @@ export function LandingPage({ onRequireAuth }) {
       <ServicesSection onBook={goBook} />
       <BarbersSection onBook={goBook} cms={cms} />
       <ReviewsSection />
-      <ShopSection onShop={goShop} />
+      <ShopSection onShop={goShop} cms={cms} />
       <BookingCTA onBook={goBook} />
       <Footer onBook={goBook} cms={cms} />
     </div>

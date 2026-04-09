@@ -22,6 +22,7 @@ import { CongesPage }       from './pages/admin/CongesPage.jsx'
 import { StatsPage }        from './pages/admin/StatsPage.jsx'
 import { SiteEditorPage }    from './pages/admin/SiteEditorPage.jsx'
 import { ReviewsAdminPage } from './pages/admin/ReviewsAdminPage.jsx'
+import { MediaPage }        from './pages/admin/MediaPage.jsx'
 
 import { getSession, clearSession } from './data/usersData.js'
 
@@ -93,6 +94,7 @@ export default function App() {
           <Route path="clients"       element={<ClientsPage />} />
           <Route path="site"          element={<SiteEditorPage />} />
           <Route path="reviews"       element={<ReviewsAdminPage />} />
+          <Route path="media"         element={<MediaPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ShoppingCart, Star, Plus, Minus, Trash2, X, CreditCard } from 'lucide-react'
 import { PRODUCTS } from '../../data/mockData.js'
+import { loadContent } from '../../data/siteContent.js'
 
 const CATS = [
   { key: 'all', label: 'Tout' },
@@ -12,6 +13,13 @@ const CATS = [
 export function ShopPage({ auth, onRequireAuth }) {
   const [cat, setCat]       = useState('all')
   const [cart, setCart]     = useState([])
+  const [cms, setCms]       = useState(() => loadContent())
+
+  useEffect(() => {
+    const handler = () => setCms(loadContent())
+    window.addEventListener('barbor_cms_update', handler)
+    return () => window.removeEventListener('barbor_cms_update', handler)
+  }, [])
   const [showCart, setShowCart]   = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
@@ -82,10 +90,15 @@ export function ShopPage({ auth, onRequireAuth }) {
 
       {/* Grid */}
       <div className="grid grid-cols-2 gap-3 px-4">
-        {filtered.map(p => (
+        {filtered.map(p => {
+          const imgUrl = cms?.media?.productImages?.[p.id]
+          return (
           <div key={p.id} className="bg-surface rounded-2xl border border-white/5 overflow-hidden hover:border-gold/20 transition-all">
-            <div className="aspect-square bg-card flex items-center justify-center text-5xl">
-              {p.category === 'styling' ? '💈' : p.category === 'soins' ? '🧴' : '✂️'}
+            <div className="aspect-square bg-card flex items-center justify-center text-5xl overflow-hidden">
+              {imgUrl
+                ? <img src={imgUrl} alt={p.name} className="w-full h-full object-cover" />
+                : (p.category === 'styling' ? '💈' : p.category === 'soins' ? '🧴' : '✂️')
+              }
             </div>
             <div className="p-3 space-y-1">
               <p className="text-[10px] text-gold font-bold uppercase tracking-widest">{p.brand}</p>
@@ -111,7 +124,8 @@ export function ShopPage({ auth, onRequireAuth }) {
               {p.stock === 0 && <p className="text-red-400 text-xs">Rupture de stock</p>}
             </div>
           </div>
-        ))}
+          )
+        })}
       </div>
 
       {/* Cart drawer */}
@@ -132,10 +146,15 @@ export function ShopPage({ auth, onRequireAuth }) {
             ) : (
               <>
                 <div className="space-y-3 mb-6">
-                  {cart.map(({ product: p, qty }) => (
+                  {cart.map(({ product: p, qty }) => {
+                    const cartImg = cms?.media?.productImages?.[p.id]
+                    return (
                     <div key={p.id} className="flex items-center gap-3 bg-surface rounded-xl p-3">
-                      <div className="w-12 h-12 bg-card rounded-xl flex items-center justify-center text-2xl shrink-0">
-                        {p.category === 'styling' ? '💈' : p.category === 'soins' ? '🧴' : '✂️'}
+                      <div className="w-12 h-12 bg-card rounded-xl flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+                        {cartImg
+                          ? <img src={cartImg} alt={p.name} className="w-full h-full object-cover" />
+                          : (p.category === 'styling' ? '💈' : p.category === 'soins' ? '🧴' : '✂️')
+                        }
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold truncate">{p.name}</p>
@@ -154,7 +173,8 @@ export function ShopPage({ auth, onRequireAuth }) {
                         </button>
                       </div>
                     </div>
-                  ))}
+                    )
+                  })}
                 </div>
                 <div className="border-t border-white/10 pt-4 space-y-3">
                   <div className="flex justify-between">

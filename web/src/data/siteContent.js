@@ -28,10 +28,11 @@ export const DEFAULTS = {
     mapsEmbed: 'https://maps.google.com/maps?q=Barb+Or+Guyane+Cayenne+973&output=embed&z=16',
   },
   media: {
-    logoUrl:      '',   // URL ou base64
-    heroImageUrl: '',   // image fond hero
-    heroVideoUrl: '',   // URL YouTube
-    photos: {},         // { b1: url/base64, b5: ..., b6: ... }
+    logoUrl:       '',   // URL ou base64
+    heroImageUrl:  '',   // image fond hero
+    heroVideoUrl:  '',   // URL YouTube
+    photos:        {},   // { b1: url/base64, b5: ..., b6: ... }  — photos barbers
+    productImages: {},   // { p1: url/base64, p2: ..., ... }      — images produits
   },
 }
 
