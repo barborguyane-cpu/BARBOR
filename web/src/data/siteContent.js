@@ -18,10 +18,12 @@ export const DEFAULTS = {
     quote2: "La qualité en plus.",
   },
   contact: {
-    phone:     '',
+    phone:     '0694 25 01 56',
+    phone2:    '0594 21 96 33',
     address:   'Cayenne, Guyane Française',
-    instagram: '@barbor.guyane',
-    whatsapp:  '594694000000',
+    instagram: '@barb_or',
+    snapchat:  'BARBORGUYANE',
+    whatsapp:  '594694250156',
     maps:      '',
   },
   media: {

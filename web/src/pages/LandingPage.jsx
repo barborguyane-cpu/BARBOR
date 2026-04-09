@@ -845,17 +845,21 @@ function BookingCTA({ onBook }) {
 ──────────────────────────────────────────────────────── */
 function Footer({ onBook, cms }) {
   const ct = cms?.contact || {}
-  const logoUrl = cms?.media?.logoUrl || '/logo.png'
+  const logoUrl   = cms?.media?.logoUrl || '/logo.png'
   const address   = ct.address   || 'Cayenne, Guyane Française'
-  const instagram = ct.instagram || '@barbor.guyane'
-  const whatsapp  = ct.whatsapp  || '594694000000'
+  const instagram = ct.instagram || '@barb_or'
+  const snapchat  = ct.snapchat  || 'BARBORGUYANE'
+  const whatsapp  = ct.whatsapp  || '594694250156'
   const mapsUrl   = ct.maps      || '#'
-  const phone     = ct.phone     || ''
+  const phone     = ct.phone     || '0694 25 01 56'
+  const phone2    = ct.phone2    || '0594 21 96 33'
 
   const contactLinks = [
-    { icon: MapPin,    text: address,   href: mapsUrl   },
+    { icon: MapPin,    text: address,   href: mapsUrl },
+    { icon: Phone,     text: phone,     href: `tel:${phone.replace(/\s/g,'')}` },
+    { icon: Phone,     text: phone2,    href: `tel:${phone2.replace(/\s/g,'')}` },
     { icon: Instagram, text: instagram, href: `https://instagram.com/${instagram.replace('@','')}` },
-    ...(phone ? [{ icon: Phone, text: phone, href: `tel:${phone}` }] : []),
+    { icon: Instagram, text: `Snapchat · ${snapchat}`, href: `https://snapchat.com/add/${snapchat}` },
   ]
 
   return (

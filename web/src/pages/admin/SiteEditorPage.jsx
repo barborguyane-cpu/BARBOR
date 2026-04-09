@@ -269,15 +269,19 @@ export function SiteEditorPage() {
       {tab === 'contact' && (
         <div className="space-y-5 bg-[#0D0D0D] border border-white/5 rounded-2xl p-6">
           <h2 className="text-sm font-black uppercase tracking-widest text-white mb-4">Informations de contact</h2>
-          <Field label="Téléphone" value={data.contact.phone}
-            onChange={v => set('contact','phone',v)} placeholder="+594 694 XX XX XX" />
+          <Field label="Téléphone principal (mobile)" value={data.contact.phone}
+            onChange={v => set('contact','phone',v)} placeholder="0694 25 01 56" />
+          <Field label="Téléphone 2 (fixe)" value={data.contact.phone2 || ''}
+            onChange={v => set('contact','phone2',v)} placeholder="0594 21 96 33" />
           <Field label="Adresse" value={data.contact.address}
             onChange={v => set('contact','address',v)} placeholder="Cayenne, Guyane Française" />
-          <Field label="Instagram" value={data.contact.instagram}
-            onChange={v => set('contact','instagram',v)} placeholder="@barbor.guyane" />
+          <Field label="Instagram (avec @)" value={data.contact.instagram}
+            onChange={v => set('contact','instagram',v)} placeholder="@barb_or" />
+          <Field label="Snapchat (pseudo)" value={data.contact.snapchat || ''}
+            onChange={v => set('contact','snapchat',v)} placeholder="BARBORGUYANE" />
           <Field label="Numéro WhatsApp (sans + ni espaces)"
             value={data.contact.whatsapp}
-            onChange={v => set('contact','whatsapp',v)} placeholder="594694000000" />
+            onChange={v => set('contact','whatsapp',v)} placeholder="594694250156" />
           <Field label="Lien Google Maps (URL complète)"
             value={data.contact.maps}
             onChange={v => set('contact','maps',v)} placeholder="https://maps.google.com/..." />
@@ -286,8 +290,10 @@ export function SiteEditorPage() {
           <div className="mt-4 bg-black border border-white/5 rounded-xl p-5 space-y-3">
             {[
               ['📞', data.contact.phone || 'Non renseigné'],
+              ['📞', data.contact.phone2 || '—'],
               ['📍', data.contact.address],
-              ['📱', `Instagram : ${data.contact.instagram}`],
+              ['📸', `Instagram : ${data.contact.instagram}`],
+              ['👻', `Snapchat : ${data.contact.snapchat || '—'}`],
               ['💬', `WhatsApp : +${data.contact.whatsapp}`],
             ].map(([icon, text]) => (
               <div key={text} className="flex items-center gap-3 text-sm text-gray-400">
