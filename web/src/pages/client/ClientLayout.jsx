@@ -29,7 +29,7 @@ export function ClientLayout({ auth, onLogout, onLogin }) {
         {isLoggedIn ? (
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-gold flex items-center justify-center font-black text-black text-xs">
-              {auth.name?.[0] || 'C'}
+              {`${auth.user?.firstName?.[0] || ''}${auth.user?.lastName?.[0] || ''}`.toUpperCase() || 'C'}
             </div>
           </div>
         ) : (

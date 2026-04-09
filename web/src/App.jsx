@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { LandingPage }  from './pages/LandingPage.jsx'
 import { LoginPage }    from './pages/LoginPage.jsx'
@@ -23,7 +23,8 @@ import { StatsPage }        from './pages/admin/StatsPage.jsx'
 import { SiteEditorPage }    from './pages/admin/SiteEditorPage.jsx'
 import { ReviewsAdminPage } from './pages/admin/ReviewsAdminPage.jsx'
 
-// Guard: redirects to /admin-login if not authenticated as admin
+import { getSession, clearSession } from './data/usersData.js'
+
 function AdminGuard({ auth, children }) {
   if (!auth.loggedIn)          return <Navigate to="/admin-login" replace />
   if (auth.role !== 'admin')   return <Navigate to="/" replace />
@@ -31,16 +32,25 @@ function AdminGuard({ auth, children }) {
 }
 
 export default function App() {
-  const [auth, setAuth]                    = useState({ loggedIn: false, role: null })
+  const [auth, setAuth] = useState(() => {
+    // Restaure la session client au chargement
+    const s = getSession()
+    if (s) return { loggedIn: true, role: 'client', user: s.user }
+    return { loggedIn: false, role: null, user: null }
+  })
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loginCallback, setLoginCallback]  = useState(null)
 
-  const login = (role) => {
-    setAuth({ loggedIn: true, role })
+  const login = (role, user = null) => {
+    setAuth({ loggedIn: true, role, user })
     setShowLoginModal(false)
     if (loginCallback) { loginCallback(role); setLoginCallback(null) }
   }
-  const logout = () => setAuth({ loggedIn: false, role: null })
+
+  const logout = () => {
+    clearSession()
+    setAuth({ loggedIn: false, role: null, user: null })
+  }
 
   const requireAuth = (onSuccess) => {
     if (auth.loggedIn) { onSuccess?.(auth.role); return true }
@@ -52,28 +62,22 @@ export default function App() {
   return (
     <>
       <Routes>
-        {/* ── Landing page ── */}
         <Route path="/" element={<LandingPage />} />
-
-        {/* ── Ancienne route /home → redirect landing ── */}
         <Route path="/home" element={<Navigate to="/" replace />} />
 
-        {/* ── Client app ── */}
         <Route element={<ClientLayout auth={auth} onLogout={logout} onLogin={() => setShowLoginModal(true)} />}>
           <Route path="/booking" element={<BookingPage auth={auth} onRequireAuth={requireAuth} />} />
           <Route path="/shop"    element={<ShopPage    auth={auth} onRequireAuth={requireAuth} />} />
           <Route path="/driver"  element={<DriverPage  auth={auth} onRequireAuth={requireAuth} />} />
-          <Route path="/profile" element={<ProfilePage auth={auth} onRequireAuth={requireAuth} />} />
+          <Route path="/profile" element={<ProfilePage auth={auth} onRequireAuth={requireAuth} onLogin={() => setShowLoginModal(true)} onLogout={logout} />} />
         </Route>
 
-        {/* ── Admin login (standalone, no client branding) ── */}
         <Route path="/admin-login" element={
           auth.loggedIn && auth.role === 'admin'
             ? <Navigate to="/admin" replace />
             : <LoginPage onLogin={login} />
         } />
 
-        {/* ── Admin dashboard (guarded) ── */}
         <Route path="/admin" element={
           <AdminGuard auth={auth}>
             <AdminLayout onLogout={logout} />
