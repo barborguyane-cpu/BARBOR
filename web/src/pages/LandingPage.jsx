@@ -360,13 +360,13 @@ function ConceptSection({ cms }) {
    SERVICES SECTION
 ──────────────────────────────────────────────────────── */
 const SVC_TABS = [
-  { key: 'coupe',   label: 'Coupes',    icon: '✂️' },
-  { key: 'contour', label: 'Contours',  icon: '〽️' },
-  { key: 'barbe',   label: 'Barbes',    icon: '🪒' },
-  { key: 'pack',    label: 'Packs',     icon: '⭐' },
-  { key: 'couleur', label: 'Couleur',   icon: '🎨' },
-  { key: 'soin',    label: 'Soins',     icon: '💆' },
-  { key: 'extra',   label: 'Extras',    icon: '⚡' },
+  { key: 'coupe',   label: 'Coupes'   },
+  { key: 'contour', label: 'Contours' },
+  { key: 'barbe',   label: 'Barbes'   },
+  { key: 'pack',    label: 'Packs'    },
+  { key: 'couleur', label: 'Couleur'  },
+  { key: 'soin',    label: 'Soins'    },
+  { key: 'extra',   label: 'Extras'   },
 ]
 
 function ServicesSection({ onBook }) {
@@ -389,10 +389,10 @@ function ServicesSection({ onBook }) {
         <div className="reveal flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
           {SVC_TABS.map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wide whitespace-nowrap shrink-0 transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest whitespace-nowrap shrink-0 transition-all ${
                 tab === t.key ? 'bg-gold text-black' : 'bg-[#0D0D0D] border border-white/10 text-gray-400 hover:text-white'
               }`}>
-              <span>{t.icon}</span> {t.label}
+              {t.label}
             </button>
           ))}
         </div>
