@@ -282,9 +282,14 @@ export function SiteEditorPage() {
           <Field label="Numéro WhatsApp (sans + ni espaces)"
             value={data.contact.whatsapp}
             onChange={v => set('contact','whatsapp',v)} placeholder="594694250156" />
-          <Field label="Lien Google Maps (URL complète)"
+          <Field label="Lien Google Maps (bouton Itinéraire)"
             value={data.contact.maps}
-            onChange={v => set('contact','maps',v)} placeholder="https://maps.google.com/..." />
+            onChange={v => set('contact','maps',v)} placeholder="https://maps.app.goo.gl/..." />
+          <Field label="URL Intégration carte (iframe embed)"
+            value={data.contact.mapsEmbed || ''}
+            onChange={v => set('contact','mapsEmbed',v)}
+            placeholder="https://maps.google.com/maps?q=...&output=embed" />
+          <p className="text-gray-600 text-xs">Pour l'URL embed : Google Maps → Partager → Intégrer une carte → copier le lien src de l'iframe.</p>
 
           {/* Aperçu */}
           <div className="mt-4 bg-black border border-white/5 rounded-xl p-5 space-y-3">

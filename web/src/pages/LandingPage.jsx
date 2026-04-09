@@ -845,14 +845,15 @@ function BookingCTA({ onBook }) {
 ──────────────────────────────────────────────────────── */
 function Footer({ onBook, cms }) {
   const ct = cms?.contact || {}
-  const logoUrl   = cms?.media?.logoUrl || '/logo.png'
-  const address   = ct.address   || 'Cayenne, Guyane Française'
-  const instagram = ct.instagram || '@barb_or'
-  const snapchat  = ct.snapchat  || 'BARBORGUYANE'
-  const whatsapp  = ct.whatsapp  || '594694250156'
-  const mapsUrl   = ct.maps      || '#'
-  const phone     = ct.phone     || '0694 25 01 56'
-  const phone2    = ct.phone2    || '0594 21 96 33'
+  const logoUrl    = cms?.media?.logoUrl || '/logo.png'
+  const address    = ct.address    || 'Cayenne, Guyane Française'
+  const instagram  = ct.instagram  || '@barb_or'
+  const snapchat   = ct.snapchat   || 'BARBORGUYANE'
+  const whatsapp   = ct.whatsapp   || '594694250156'
+  const mapsUrl    = ct.maps       || 'https://maps.app.goo.gl/xEmF7E68H6aULXj89'
+  const mapsEmbed  = ct.mapsEmbed  || 'https://maps.google.com/maps?q=Barb+Or+Guyane+Cayenne+973&output=embed&z=16'
+  const phone      = ct.phone      || '0694 25 01 56'
+  const phone2     = ct.phone2     || '0594 21 96 33'
 
   const contactLinks = [
     { icon: MapPin,    text: address,   href: mapsUrl },
@@ -892,6 +893,33 @@ function Footer({ onBook, cms }) {
               <span className={`text-sm font-bold ${h.open ? 'text-gold' : 'text-red-400'}`}>{h.times}</span>
             </div>
           ))}
+        </div>
+
+        {/* Carte Google Maps */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 mb-1">
+            <MapPin size={14} className="text-gold" />
+            <p className="text-gold text-xs font-bold uppercase tracking-[4px]">Nous trouver</p>
+          </div>
+          <div className="rounded-2xl overflow-hidden border border-white/8" style={{ height: '200px' }}>
+            <iframe
+              src={mapsEmbed}
+              width="100%"
+              height="100%"
+              style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) saturate(0.8)' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Localisation BARB'OR"
+            />
+          </div>
+          <a href={mapsUrl} target="_blank" rel="noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-4 rounded-full
+              border border-blue-400/30 bg-blue-500/5 text-blue-300
+              hover:bg-blue-500/10 transition-all duration-300 font-semibold tracking-wide text-sm">
+            <MapPin size={16} />
+            Obtenir l'itinéraire
+          </a>
         </div>
 
         {/* Contact */}

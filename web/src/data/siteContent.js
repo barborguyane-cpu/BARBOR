@@ -24,7 +24,8 @@ export const DEFAULTS = {
     instagram: '@barb_or',
     snapchat:  'BARBORGUYANE',
     whatsapp:  '594694250156',
-    maps:      '',
+    maps:      'https://maps.app.goo.gl/xEmF7E68H6aULXj89',
+    mapsEmbed: 'https://maps.google.com/maps?q=Barb+Or+Guyane+Cayenne+973&output=embed&z=16',
   },
   media: {
     logoUrl:      '',   // URL ou base64
