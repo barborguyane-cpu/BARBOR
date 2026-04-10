@@ -289,27 +289,27 @@ function Hero({ onBook, onDriver, cms }) {
 
       </div>
 
-      {/* Hero content — bottom aligned like Blackbox */}
-      <div className="relative text-center px-5 space-y-4">
+      {/* Hero content */}
+      <div className="relative text-center px-5 space-y-0">
 
-        {/* Logo rond */}
-        <div className="flex justify-center mt-6">
+        {/* Logo rond — collé au texte */}
+        <div className="flex justify-center mb-2">
           <img
             src={cms?.media?.logoUrl || '/logo-rond.png'}
             alt="BARB'OR"
             className="w-56 h-56 object-contain"
-            style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 24px rgba(212,175,55,0.6))' }}
+            style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 24px rgba(255,215,0,0.6))' }}
             onError={e => e.target.style.display = 'none'}
           />
         </div>
 
-        {/* Logo texte officiel */}
+        {/* Logo texte officiel — juste sous le rond */}
         <div className="flex justify-center px-2">
           <img
             src="/logo-texte.png"
             alt="BARB'OR Guyane"
             className="w-full object-contain"
-            style={{ filter: 'drop-shadow(0 0 14px rgba(212,175,55,0.3))' }}
+            style={{ filter: 'drop-shadow(0 0 14px rgba(255,215,0,0.3))' }}
           />
         </div>
 
