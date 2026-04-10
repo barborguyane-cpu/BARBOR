@@ -90,7 +90,8 @@ function Nav({ onBook }) {
     { label: 'Nos Barbers',    href: '#barbers',  anchor: true },
     { label: 'Boutique',       href: '#shop',     anchor: true },
     { label: 'Contact',        href: '#footer',   anchor: true },
-    { label: "BARB'DRIVER",    href: '/driver',   anchor: false },
+    { label: "BARB'DRIVER",           href: '/driver',   anchor: false },
+    { label: 'Planning en temps réel', href: '/planning', anchor: false },
   ]
 
   const handleLink = (l) => {

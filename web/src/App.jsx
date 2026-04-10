@@ -10,6 +10,7 @@ import { BookingPage }  from './pages/client/BookingPage.jsx'
 import { ShopPage }     from './pages/client/ShopPage.jsx'
 import { DriverPage }   from './pages/client/DriverPage.jsx'
 import { ProfilePage }  from './pages/client/ProfilePage.jsx'
+import { PlanningPage } from './pages/client/PlanningPage.jsx'
 
 import { AdminLayout }      from './pages/admin/AdminLayout.jsx'
 import { DashboardPage }    from './pages/admin/DashboardPage.jsx'
@@ -70,7 +71,8 @@ export default function App() {
           <Route path="/booking" element={<BookingPage auth={auth} onRequireAuth={requireAuth} />} />
           <Route path="/shop"    element={<ShopPage    auth={auth} onRequireAuth={requireAuth} />} />
           <Route path="/driver"  element={<DriverPage  auth={auth} onRequireAuth={requireAuth} />} />
-          <Route path="/profile" element={<ProfilePage auth={auth} onRequireAuth={requireAuth} onLogin={() => setShowLoginModal(true)} onLogout={logout} />} />
+          <Route path="/profile"  element={<ProfilePage  auth={auth} onRequireAuth={requireAuth} onLogin={() => setShowLoginModal(true)} onLogout={logout} />} />
+          <Route path="/planning" element={<PlanningPage />} />
         </Route>
 
         <Route path="/admin-login" element={

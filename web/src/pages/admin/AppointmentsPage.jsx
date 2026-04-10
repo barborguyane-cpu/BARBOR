@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, Plus, X, Check, Trash2, Calendar as CalIcon } from 'lucide-react'
 import { BARBERS, SERVICES as ALL_SERVICES } from '../../data/mockData.js'
 
@@ -254,8 +254,15 @@ export function AppointmentsPage() {
   const TODAY   = new Date()
   const [current, setCurrent] = useState(new Date())
   const [view,    setView]    = useState('week')
-  const [events,  setEvents]  = useState([])
+  const [events,  setEvents]  = useState(() => {
+    try { return JSON.parse(localStorage.getItem('barbor_appointments_v1') || '[]') } catch { return [] }
+  })
   const [modal,   setModal]   = useState(null)
+
+  useEffect(() => {
+    localStorage.setItem('barbor_appointments_v1', JSON.stringify(events))
+    window.dispatchEvent(new CustomEvent('barbor_appointments_update'))
+  }, [events])
 
   // ── Dates range ────────────────────────────────────────────────────────────
   const dates = view === 'day'
