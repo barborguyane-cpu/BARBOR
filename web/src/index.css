@@ -83,13 +83,13 @@
 
   /* ─── Gold text ──────────────────────────── */
   .gradient-text {
-    background: linear-gradient(135deg, #F0D060, #D4AF37, #A08828);
+    background: linear-gradient(135deg, #FFE44D, #FFD700, #E5C000);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .shimmer-text {
-    background: linear-gradient(90deg, #A08828, #F0D060, #D4AF37, #A08828);
+    background: linear-gradient(90deg, #E5C000, #FFE44D, #FFD700, #E5C000);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
