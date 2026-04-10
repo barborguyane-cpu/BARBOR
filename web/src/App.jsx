@@ -24,6 +24,7 @@ import { StatsPage }        from './pages/admin/StatsPage.jsx'
 import { SiteEditorPage }    from './pages/admin/SiteEditorPage.jsx'
 import { ReviewsAdminPage } from './pages/admin/ReviewsAdminPage.jsx'
 import { MediaPage }        from './pages/admin/MediaPage.jsx'
+import { SettingsPage }    from './pages/admin/SettingsPage.jsx'
 
 import { getSession, clearSession } from './data/usersData.js'
 
@@ -97,6 +98,7 @@ export default function App() {
           <Route path="site"          element={<SiteEditorPage />} />
           <Route path="reviews"       element={<ReviewsAdminPage />} />
           <Route path="media"         element={<MediaPage />} />
+          <Route path="settings"      element={<SettingsPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

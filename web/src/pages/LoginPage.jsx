@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Shield, Lock } from 'lucide-react'
+import { checkAdminLogin } from '../data/adminAuth.js'
 
 export function LoginPage({ onLogin }) {
   const [email, setEmail]       = useState('')
@@ -12,9 +13,7 @@ export function LoginPage({ onLogin }) {
     setLoading(true)
     setError(false)
     await new Promise(r => setTimeout(r, 900))
-    // In prod: validate against real credentials
-    // For demo: any input works
-    if (email.trim() && password.trim()) {
+    if (checkAdminLogin(email, password)) {
       onLogin('admin')
     } else {
       setError(true)

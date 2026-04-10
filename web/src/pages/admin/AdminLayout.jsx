@@ -1,7 +1,7 @@
 import { Outlet, NavLink } from 'react-router-dom'
 import {
   LayoutDashboard, Calendar, Users, Package, UserCheck,
-  LogOut, Menu, X, Clock, Palmtree, BarChart2, Globe, Star, Images
+  LogOut, Menu, X, Clock, Palmtree, BarChart2, Globe, Star, Images, Settings
 } from 'lucide-react'
 import { useState } from 'react'
 import { Logo } from '../../components/common/Logo.jsx'
@@ -18,6 +18,7 @@ const NAV = [
   { to: '/admin/site',         icon: Globe,           label: 'Éditeur du site'           },
   { to: '/admin/reviews',      icon: Star,            label: 'Avis clients'              },
   { to: '/admin/media',        icon: Images,          label: 'Médiathèque'               },
+  { to: '/admin/settings',    icon: Settings,        label: 'Sécurité & Accès'          },
 ]
 
 function SideNav({ onClose, onLogout }) {
