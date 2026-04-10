@@ -101,7 +101,14 @@ function ImageSlot({ label, sublabel, value, storagePath, onSave, aspect = 'squa
 
 // ── Page principale ─────────────────────────────────────────────────────────
 export function MediaPage() {
-  const [media, setMedia] = useState({ photos: {}, productImages: {} })
+  // Charge depuis localStorage en premier (instantané), puis Firestore met à jour
+  const [media, setMedia] = useState(() => {
+    const cms = loadContent()
+    return {
+      photos:        cms.media?.photos        || {},
+      productImages: cms.media?.productImages || {},
+    }
+  })
 
   useEffect(() => subscribeMedia(setMedia), [])
 
