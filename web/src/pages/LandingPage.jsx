@@ -115,14 +115,10 @@ function Nav({ onBook }) {
       }`}>
         <div className="flex items-center justify-between px-5 py-4">
           {/* Logo nav */}
-          <button onClick={() => scrollTo('#hero')} className="flex items-center gap-2">
-            <img src="/logo-rond.png" alt="BARB'OR" className="h-9 w-9 object-contain"
-              style={{ filter: 'brightness(0) invert(1)' }}
+          <button onClick={() => scrollTo('#hero')} className="flex items-center">
+            <img src="/LOGO.PNG" alt="BARB'OR"
+              className="h-10 w-auto object-contain mix-blend-screen"
             />
-            <div className="flex flex-col items-start leading-none">
-              <span className="text-white font-black text-xs tracking-widest uppercase">Barbershop</span>
-              <span className="text-gold font-black text-xs tracking-widest uppercase">Cayenne</span>
-            </div>
           </button>
 
           {/* Center CTA */}
@@ -152,7 +148,7 @@ function Nav({ onBook }) {
           {/* Top bar */}
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-3">
-              <img src="/LOGO.PNG" alt="" className="h-9 w-9 object-contain mix-blend-screen"
+              <img src="/LOGO.PNG" alt="" className="h-10 w-auto object-contain mix-blend-screen"
                 onError={e => e.target.style.display='none'} />
               <div>
                 <p className="font-display text-gold text-xl tracking-widest">BARB'OR</p>
