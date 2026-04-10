@@ -196,19 +196,17 @@ function Nav({ onBook }) {
 const TICKER_TEXT = [
   "BARB'OR GUYANE", "✦", "PREMIUM GROOMING", "✦",
   "CAYENNE", "✦", "BARBERSHOP D'EXCELLENCE", "✦",
-  "LA QUALITÉ EN PLUS", "✦", "DEPUIS 2020", "✦",
+  "LA QUALITÉ EN PLUS", "✦", "DEPUIS 2024", "✦",
 ]
 
-function Ticker({ inverted = false }) {
-  const items = [...TICKER_TEXT, ...TICKER_TEXT] // dupliquer pour seamless loop
+function Ticker() {
+  const items = [...TICKER_TEXT, ...TICKER_TEXT]
   return (
-    <div className={`overflow-hidden py-3 border-y ${inverted
-      ? 'bg-gold border-gold/0 text-black'
-      : 'bg-black border-white/5 text-white'}`}>
+    <div className="overflow-hidden py-2.5 bg-gold">
       <div className="flex animate-marquee whitespace-nowrap">
         {[...items, ...items].map((item, i) => (
-          <span key={i} className={`inline-block px-4 text-[10px] font-bold tracking-[4px] uppercase
-            ${item === '✦' ? (inverted ? 'text-black/50' : 'text-gold') : ''}`}>
+          <span key={i} className={`inline-block px-4 text-[9px] font-black tracking-[4px] uppercase
+            ${item === '✦' ? 'text-black/40' : 'text-black'}`}>
             {item}
           </span>
         ))}
@@ -1069,7 +1067,7 @@ export function LandingPage({ onRequireAuth }) {
       <Ticker />
       <ConceptSection cms={cms} />
       <ServicesSection onBook={goBook} />
-      <Ticker inverted />
+      <Ticker />
       <BarbersSection onBook={goBook} cms={cms} />
       <ReviewsSection />
       <ShopSection onShop={goShop} cms={cms} />
