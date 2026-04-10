@@ -290,32 +290,25 @@ function Hero({ onBook, onDriver, cms }) {
       </div>
 
       {/* Hero content — bottom aligned like Blackbox */}
-      <div className="relative text-center px-5 space-y-7">
+      <div className="relative text-center px-5 space-y-5">
 
-        {/* Logo — intégré dans le flux, taille responsive */}
+        {/* Logo rond */}
         <div className="flex justify-center">
           <img
             src={cms?.media?.logoUrl || '/logo-rond.png'}
             alt="BARB'OR"
-            className="w-20 h-20 md:w-16 md:h-16 object-contain"
-            style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 12px rgba(212,175,55,0.4))' }}
+            className="w-28 h-28 object-contain"
+            style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 16px rgba(212,175,55,0.5))' }}
             onError={e => e.target.style.display = 'none'}
           />
         </div>
 
-        {/* Badge premium */}
-        <div className="flex justify-center">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/30 bg-gold/10 text-gold text-[11px] font-bold uppercase tracking-[4px]">
-            ✦ {h.badge || 'Barbershop Premium · Cayenne'}
-          </span>
-        </div>
-
-        {/* Logo texte officiel — remplace BARB'OR GUYANE */}
+        {/* Logo texte officiel */}
         <div className="flex justify-center">
           <img
             src="/logo-texte.png"
             alt="BARB'OR Guyane"
-            className="w-full max-w-xs md:max-w-sm object-contain"
+            className="w-full max-w-sm object-contain"
             style={{ filter: 'drop-shadow(0 0 10px rgba(212,175,55,0.3))' }}
           />
         </div>
