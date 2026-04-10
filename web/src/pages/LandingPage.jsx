@@ -219,14 +219,16 @@ function Ticker() {
    LOGO HERO — affiché uniquement si une image est disponible
 ──────────────────────────────────────────────────────── */
 function LogoHero({ cms }) {
-  const src = cms?.media?.logoUrl || '/LOGO.PNG'
+  const src = cms?.media?.logoUrl || '/logo-rond.png'
 
   return (
     <div className="absolute top-[8vh] left-1/2 -translate-x-1/2 flex items-center justify-center">
       <img
         src={src}
         alt="BARB'OR"
-        className="w-32 h-32 object-contain drop-shadow-2xl mix-blend-screen"
+        className="w-36 h-36 object-contain"
+        style={{ filter: 'invert(1) drop-shadow(0 0 12px rgba(212,175,55,0.4))' }}
+        onError={e => e.target.style.display = 'none'}
       />
     </div>
   )
