@@ -310,14 +310,14 @@ function Hero({ onBook, onDriver, cms }) {
           </span>
         </div>
 
-        {/* Nom principal */}
-        <div className="space-y-1">
-          <p className="display-hero shimmer-text leading-none">
-            {h.line1 || "BARB'OR"}
-          </p>
-          <p className="display-hero text-white leading-none">
-            {h.line2 || 'GUYANE'}
-          </p>
+        {/* Logo texte officiel — remplace BARB'OR GUYANE */}
+        <div className="flex justify-center">
+          <img
+            src="/logo-texte.png"
+            alt="BARB'OR Guyane"
+            className="w-full max-w-xs md:max-w-sm object-contain"
+            style={{ filter: 'drop-shadow(0 0 10px rgba(212,175,55,0.3))' }}
+          />
         </div>
 
         {/* Slogan séparé par une ligne gold */}
