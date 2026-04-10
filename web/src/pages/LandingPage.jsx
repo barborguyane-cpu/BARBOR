@@ -227,7 +227,7 @@ function LogoHero({ cms }) {
         src={src}
         alt="BARB'OR"
         className="w-36 h-36 object-contain"
-        style={{ filter: 'invert(1) drop-shadow(0 0 12px rgba(212,175,55,0.4))' }}
+        style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 16px rgba(212,175,55,0.5))' }}
         onError={e => e.target.style.display = 'none'}
       />
     </div>
