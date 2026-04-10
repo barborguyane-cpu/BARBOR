@@ -40,6 +40,7 @@ export default {
         'float':      'float 4s ease-in-out infinite',
         'glow-cta':   'glowCta 2.5s ease-in-out infinite',
         'spin-slow':  'spin 12s linear infinite',
+        'logo-enter': 'logoEnter 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
       },
       keyframes: {
         fadeUp: {
@@ -77,6 +78,12 @@ export default {
         float: {
           '0%,100%': { transform: 'translateY(0px)' },
           '50%':     { transform: 'translateY(-12px)' },
+        },
+        logoEnter: {
+          '0%':   { opacity: '0', transform: 'scale(0.3) rotate(-180deg)' },
+          '60%':  { opacity: '1', transform: 'scale(1.1) rotate(10deg)' },
+          '80%':  { transform: 'scale(0.95) rotate(-5deg)' },
+          '100%': { opacity: '1', transform: 'scale(1) rotate(0deg)' },
         },
         glowCta: {
           '0%,100%': { boxShadow: '0 0 15px rgba(212,175,55,0.2), 0 0 30px rgba(212,175,55,0.1)' },

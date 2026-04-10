@@ -121,12 +121,6 @@ function Nav({ onBook }) {
             />
           </button>
 
-          {/* Center CTA */}
-          <button onClick={onBook}
-            className="btn-pill text-sm font-bold tracking-widest uppercase px-6 py-3">
-            Réserver
-          </button>
-
           {/* Hamburger */}
           <button onClick={() => setOpen(true)}
             className="flex flex-col gap-1.5 p-2 group">
@@ -284,13 +278,13 @@ function Hero({ onBook, onDriver, cms }) {
 
       </div>
 
-      {/* Logo rond — centré dans le hero */}
+      {/* Logo rond — centré dans le hero avec animation d'entrée */}
       <div className="flex justify-center">
         <img
           src={cms?.media?.logoUrl || '/logo-rond.png'}
           alt="BARB'OR"
-          className="w-56 h-56 object-contain"
-          style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 28px rgba(255,215,0,0.7))' }}
+          className="w-56 h-56 object-contain animate-logo-enter"
+          style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 32px rgba(255,215,0,0.8))' }}
           onError={e => e.target.style.display = 'none'}
         />
       </div>
