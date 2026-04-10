@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react'
-import { getAllUsers } from '../../data/usersData.js'
+import { subscribeUsers, subscribeAppointments } from '../../data/firestoreData.js'
 import { Search, Star, TrendingUp, Users } from 'lucide-react'
 
-function buildClients() {
-  const users = getAllUsers()
-  let appointments = []
-  try { appointments = JSON.parse(localStorage.getItem('barbor_appointments_v1') || '[]') } catch {}
-
+function mergeClients(users, appointments) {
   return users.map(user => {
     const fullName = `${user.firstName} ${user.lastName}`.toUpperCase()
     const appts = appointments.filter(a =>
@@ -34,15 +30,18 @@ function buildClients() {
 }
 
 export function ClientsPage() {
-  const [search, setSearch] = useState('')
-  const [filter, setFilter] = useState('all')
-  const [clients, setClients] = useState(buildClients)
+  const [search,  setSearch]  = useState('')
+  const [filter,  setFilter]  = useState('all')
+  const [users,   setUsers]   = useState([])
+  const [appts,   setAppts]   = useState([])
 
   useEffect(() => {
-    const refresh = () => setClients(buildClients())
-    window.addEventListener('barbor_appointments_update', refresh)
-    return () => window.removeEventListener('barbor_appointments_update', refresh)
+    const u = subscribeUsers(setUsers)
+    const a = subscribeAppointments(setAppts)
+    return () => { u(); a() }
   }, [])
+
+  const clients = mergeClients(users, appts)
 
   const filtered = clients.filter(c => {
     const matchQ = c.name.toLowerCase().includes(search.toLowerCase()) ||

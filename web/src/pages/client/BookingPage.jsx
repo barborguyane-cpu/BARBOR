@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Check, Star, Clock, ChevronRight, CreditCard } from 'lucide-react'
 import { BARBERS, SERVICES, HOURS } from '../../data/mockData.js'
+import { addAppointmentFS } from '../../data/firestoreData.js'
 
 const STEPS = ['Barber', 'Service', 'Date & Heure', 'Paiement']
 const TIMES = HOURS.slots
@@ -68,11 +69,8 @@ export function BookingPage({ auth, onRequireAuth }) {
       notes:      `Acompte ${deposit}€ payé en ligne`,
     }
 
-    try {
-      const prev = JSON.parse(localStorage.getItem('barbor_appointments_v1') || '[]')
-      localStorage.setItem('barbor_appointments_v1', JSON.stringify([...prev, ev]))
-      window.dispatchEvent(new CustomEvent('barbor_appointments_update'))
-    } catch {}
+    // Sauvegarde Firestore (partagée entre tous les appareils)
+    addAppointmentFS(ev).catch(console.error)
 
     setLoading(false)
     setSuccess(true)

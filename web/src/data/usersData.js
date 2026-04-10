@@ -1,3 +1,5 @@
+import { saveUserFS } from './firestoreData.js'
+
 const USERS_KEY   = 'barbor_users_v1'
 const SESSION_KEY = 'barbor_session_v1'
 
@@ -40,6 +42,7 @@ export function registerUser({ firstName, lastName, email, phone, password }) {
   }
 
   saveUsers([...users, user])
+  saveUserFS(_safe(user)).catch(() => {})   // sync vers Firestore (best-effort)
   const session = _startSession(user)
   return { user: _safe(user), session }
 }

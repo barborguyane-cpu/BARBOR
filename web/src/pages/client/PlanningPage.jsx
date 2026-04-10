@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react'
 import { BARBERS, SERVICES as ALL_SERVICES } from '../../data/mockData.js'
+import { subscribeAppointments } from '../../data/firestoreData.js'
 
 const SERVICES = ALL_SERVICES.filter(s => !s.devis)
 
@@ -31,19 +32,11 @@ const B_CLR = {
 
 const DAY_SHORT = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
 
-function loadEvents() {
-  try { return JSON.parse(localStorage.getItem('barbor_appointments_v1') || '[]') } catch { return [] }
-}
-
 export function PlanningPage() {
   const [current, setCurrent] = useState(new Date())
-  const [events,  setEvents]  = useState(loadEvents)
+  const [events,  setEvents]  = useState([])
 
-  useEffect(() => {
-    const h = () => setEvents(loadEvents())
-    window.addEventListener('barbor_appointments_update', h)
-    return () => window.removeEventListener('barbor_appointments_update', h)
-  }, [])
+  useEffect(() => subscribeAppointments(setEvents), [])
 
   const dates = getWeekDates(current)
   const nav   = dir => { const d = new Date(current); d.setDate(d.getDate() + dir * 7); setCurrent(d) }

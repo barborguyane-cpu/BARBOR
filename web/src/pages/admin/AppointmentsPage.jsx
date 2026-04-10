@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, Plus, X, Check, Trash2, Calendar as CalIcon } from 'lucide-react'
 import { BARBERS, SERVICES as ALL_SERVICES } from '../../data/mockData.js'
+import { subscribeAppointments, addAppointmentFS, updateAppointmentFS, deleteAppointmentFS } from '../../data/firestoreData.js'
 
 const SERVICES = ALL_SERVICES.filter(s => !s.devis)
 
@@ -254,15 +255,10 @@ export function AppointmentsPage() {
   const TODAY   = new Date()
   const [current, setCurrent] = useState(new Date())
   const [view,    setView]    = useState('week')
-  const [events,  setEvents]  = useState(() => {
-    try { return JSON.parse(localStorage.getItem('barbor_appointments_v1') || '[]') } catch { return [] }
-  })
+  const [events,  setEvents]  = useState([])
   const [modal,   setModal]   = useState(null)
 
-  useEffect(() => {
-    localStorage.setItem('barbor_appointments_v1', JSON.stringify(events))
-    window.dispatchEvent(new CustomEvent('barbor_appointments_update'))
-  }, [events])
+  useEffect(() => subscribeAppointments(setEvents), [])
 
   // ── Dates range ────────────────────────────────────────────────────────────
   const dates = view === 'day'
@@ -282,9 +278,9 @@ export function AppointmentsPage() {
 
   // ── CRUD ───────────────────────────────────────────────────────────────────
   const dayEvs  = d => events.filter(e => e.date === isoDate(d))
-  const addEv   = ev => setEvents(p => [...p, { ...ev, id: nextId() }])
-  const editEv  = ev => setEvents(p => p.map(e => e.id === ev.id ? ev : e))
-  const delEv   = id => setEvents(p => p.filter(e => e.id !== id))
+  const addEv   = ev => addAppointmentFS(ev).catch(console.error)
+  const editEv  = ev => updateAppointmentFS(ev.id, ev).catch(console.error)
+  const delEv   = id => deleteAppointmentFS(id).catch(console.error)
 
   // ── Modal helpers ──────────────────────────────────────────────────────────
   const openAdd = (defaults = {}) => setModal({
