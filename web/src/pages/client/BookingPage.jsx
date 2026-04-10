@@ -39,6 +39,41 @@ export function BookingPage({ auth, onRequireAuth }) {
     if (!auth?.loggedIn) { onRequireAuth?.(); return }
     setLoading(true)
     await new Promise(r => setTimeout(r, 1200))
+
+    // Calcul de l'heure de fin
+    const addMins = (t, n) => {
+      const [h, m] = t.split(':').map(Number)
+      const tot = h * 60 + m + n
+      return `${String(~~(tot / 60)).padStart(2, '0')}:${String(tot % 60).padStart(2, '0')}`
+    }
+    const toIso = d => {
+      const y = d.getFullYear(), mo = String(d.getMonth() + 1).padStart(2, '0'), da = String(d.getDate()).padStart(2, '0')
+      return `${y}-${mo}-${da}`
+    }
+
+    const ev = {
+      id:         `booking_${Date.now()}`,
+      type:       'appointment',
+      clientName: auth.user ? `${auth.user.firstName} ${auth.user.lastName}`.toUpperCase() : 'CLIENT',
+      userId:     auth.user?.id || null,
+      phone:      auth.user?.phone || '',
+      svcId:      service.id,
+      service:    service.name,
+      barberId:   barber.id,
+      date:       toIso(date),
+      start:      time,
+      end:        addMins(time, service.duration),
+      amount:     service.price,
+      paid:       true,
+      notes:      `Acompte ${deposit}€ payé en ligne`,
+    }
+
+    try {
+      const prev = JSON.parse(localStorage.getItem('barbor_appointments_v1') || '[]')
+      localStorage.setItem('barbor_appointments_v1', JSON.stringify([...prev, ev]))
+      window.dispatchEvent(new CustomEvent('barbor_appointments_update'))
+    } catch {}
+
     setLoading(false)
     setSuccess(true)
   }
