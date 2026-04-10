@@ -225,7 +225,7 @@ function Hero({ onBook, onDriver, cms }) {
   const bgImg = cms?.media?.heroImageUrl
 
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-end pb-16 overflow-hidden bg-black">
+    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-between pt-24 pb-10 overflow-hidden bg-black">
 
       {/* Hero background image */}
       {bgImg && (
@@ -287,21 +287,21 @@ function Hero({ onBook, onDriver, cms }) {
 
       </div>
 
-      {/* Hero content */}
-      <div className="relative text-center px-5 space-y-0">
+      {/* Logo rond — centré dans le hero */}
+      <div className="flex justify-center">
+        <img
+          src={cms?.media?.logoUrl || '/logo-rond.png'}
+          alt="BARB'OR"
+          className="w-56 h-56 object-contain"
+          style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 28px rgba(255,215,0,0.7))' }}
+          onError={e => e.target.style.display = 'none'}
+        />
+      </div>
 
-        {/* Logo rond — collé au texte */}
-        <div className="flex justify-center mb-2">
-          <img
-            src={cms?.media?.logoUrl || '/logo-rond.png'}
-            alt="BARB'OR"
-            className="w-56 h-56 object-contain"
-            style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 24px rgba(255,215,0,0.6))' }}
-            onError={e => e.target.style.display = 'none'}
-          />
-        </div>
+      {/* Bas du hero — BARB'OR + slogan + CTAs */}
+      <div className="relative text-center px-5 space-y-4 w-full">
 
-        {/* Logo texte officiel — juste sous le rond */}
+        {/* Logo texte officiel */}
         <div className="flex justify-center px-2">
           <img
             src="/logo-texte.png"
