@@ -23,15 +23,6 @@ const BARBER_STATS = {
     ],
     topService: '—',
   },
-  b6: {
-    rdvMonth: 0, revenue: 0, rating: 0, loyalClients: 0,
-    satisfaction: { ponctualite: 0, qualite: 0, accueil: 0, proprete: 0 },
-    revenueWeek: [
-      { day: 'Lun', v: 0 }, { day: 'Mar', v: 0 }, { day: 'Mer', v: 0 },
-      { day: 'Jeu', v: 0 }, { day: 'Ven', v: 0 }, { day: 'Sam', v: 0 }, { day: 'Dim', v: 0 },
-    ],
-    topService: '—',
-  },
 }
 
 // Ranking by revenue — barbers only (apprentices separate)

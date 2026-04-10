@@ -12,12 +12,6 @@ export const BARBERS = [
     available: true, avatar: 'CA', role: 'apprentice',
     age: 20, phone: '', email: '', joinDate: '2025-01-15',
   },
-  {
-    id: 'b6', firstName: 'Quentin', lastName: 'SALMIER PORTUT',
-    specialty: 'Apprenti barber', rating: 0, reviews: 0,
-    available: true, avatar: 'QS', role: 'apprentice',
-    age: 17, phone: '', email: '', joinDate: '2025-02-01',
-  },
 ]
 
 // ─── Horaires ─────────────────────────────────────────────────────────────

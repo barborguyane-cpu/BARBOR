@@ -5,7 +5,6 @@ import { BARBERS as INITIAL_BARBERS } from '../../data/mockData.js'
 const INIT_PERF = {
   b1: { clients: 0, revenue: 0 },
   b5: { clients: 0, revenue: 0 },
-  b6: { clients: 0, revenue: 0 },
 }
 
 const ROLE_CONFIG = {

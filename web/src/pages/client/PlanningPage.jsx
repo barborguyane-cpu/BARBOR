@@ -27,7 +27,6 @@ const HOUR_LABELS = Array.from({ length: DAY_END - DAY_START }, (_, i) =>
 const B_CLR = {
   b1: '#FFD700',
   b5: '#3B82F6',
-  b6: '#10B981',
 }
 
 const DAY_SHORT = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
