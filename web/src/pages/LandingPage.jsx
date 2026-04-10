@@ -113,16 +113,14 @@ function Nav({ onBook }) {
         scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/5' : ''
       }`}>
         <div className="flex items-center justify-between px-5 py-4">
-          {/* Logo icon */}
-          <button onClick={() => scrollTo('#hero')} className="flex items-center">
-            <img src="/LOGO.PNG" alt="BARB'OR" className="h-9 w-9 object-contain mix-blend-screen"
-              onError={e => {
-                e.target.style.display = 'none'
-                e.target.nextSibling.style.display = 'flex'
-              }}
+          {/* Logo nav */}
+          <button onClick={() => scrollTo('#hero')} className="flex items-center gap-2">
+            <img src="/logo-rond.png" alt="BARB'OR" className="h-9 w-9 object-contain"
+              style={{ filter: 'brightness(0) invert(1)' }}
             />
-            <div className="h-9 w-9 hidden items-center justify-center rounded-lg border border-gold/40 bg-gold/10">
-              <span className="text-gold font-display text-lg leading-none">B</span>
+            <div className="flex flex-col items-start leading-none">
+              <span className="text-white font-black text-xs tracking-widest uppercase">Barbershop</span>
+              <span className="text-gold font-black text-xs tracking-widest uppercase">Cayenne</span>
             </div>
           </button>
 
