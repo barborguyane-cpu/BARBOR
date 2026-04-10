@@ -290,15 +290,15 @@ function Hero({ onBook, onDriver, cms }) {
       </div>
 
       {/* Hero content — bottom aligned like Blackbox */}
-      <div className="relative text-center px-5 space-y-5">
+      <div className="relative text-center px-5 space-y-4">
 
         {/* Logo rond */}
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-8">
           <img
             src={cms?.media?.logoUrl || '/logo-rond.png'}
             alt="BARB'OR"
-            className="w-28 h-28 object-contain"
-            style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 16px rgba(212,175,55,0.5))' }}
+            className="w-40 h-40 object-contain"
+            style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 20px rgba(212,175,55,0.6))' }}
             onError={e => e.target.style.display = 'none'}
           />
         </div>
@@ -308,8 +308,8 @@ function Hero({ onBook, onDriver, cms }) {
           <img
             src="/logo-texte.png"
             alt="BARB'OR Guyane"
-            className="w-full max-w-sm object-contain"
-            style={{ filter: 'drop-shadow(0 0 10px rgba(212,175,55,0.3))' }}
+            className="w-full max-w-md object-contain"
+            style={{ filter: 'drop-shadow(0 0 12px rgba(212,175,55,0.3))' }}
           />
         </div>
 
