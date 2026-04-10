@@ -36,6 +36,10 @@ export default {
         'shimmer':    'shimmer 3s linear infinite',
         'pulse-gold': 'pulseGold 2s ease-in-out infinite',
         'beam':       'beam 4s ease-in-out infinite',
+        'marquee':    'marquee 28s linear infinite',
+        'float':      'float 4s ease-in-out infinite',
+        'glow-cta':   'glowCta 2.5s ease-in-out infinite',
+        'spin-slow':  'spin 12s linear infinite',
       },
       keyframes: {
         fadeUp: {
@@ -65,6 +69,18 @@ export default {
         beam: {
           '0%,100%': { opacity: '0.3' },
           '50%':     { opacity: '0.7' },
+        },
+        marquee: {
+          '0%':   { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        float: {
+          '0%,100%': { transform: 'translateY(0px)' },
+          '50%':     { transform: 'translateY(-12px)' },
+        },
+        glowCta: {
+          '0%,100%': { boxShadow: '0 0 15px rgba(212,175,55,0.2), 0 0 30px rgba(212,175,55,0.1)' },
+          '50%':     { boxShadow: '0 0 25px rgba(212,175,55,0.5), 0 0 60px rgba(212,175,55,0.2)' },
         },
       },
     },

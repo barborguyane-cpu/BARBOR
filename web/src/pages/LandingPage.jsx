@@ -1,7 +1,48 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Menu, X, MapPin, Phone, Instagram, Star, ArrowRight, ChevronRight, Clock, Send } from 'lucide-react'
 import { useReveal } from '../hooks/useInView.js'
+
+// Particules stables (positions pré-calculées, pas de Math.random au rendu)
+const PARTICLES = Array.from({ length: 22 }, (_, i) => ({
+  w:       ((i * 7  + 3) % 3)  + 1,
+  top:     ((i * 13 + 5) % 55),
+  left:    ((i * 17 + 11) % 100),
+  delay:   ((i * 3)  % 50) / 10,
+  dur:     ((i * 2)  % 30) / 10 + 2,
+  opacity: ((i * 11) % 5)  * 0.1 + 0.15,
+}))
+
+// Hook compteur animé — se déclenche quand l'élément entre dans le viewport
+function useCountUp(target, duration = 1800) {
+  const [count,   setCount]   = useState(0)
+  const [started, setStarted] = useState(false)
+  const ref = useRef()
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setStarted(true) },
+      { threshold: 0.5 }
+    )
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!started) return
+    const start = Date.now()
+    const isFloat = target % 1 !== 0
+    const id = setInterval(() => {
+      const p = Math.min((Date.now() - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - p, 3)
+      setCount(isFloat ? parseFloat((target * eased).toFixed(1)) : Math.round(target * eased))
+      if (p === 1) clearInterval(id)
+    }, 16)
+    return () => clearInterval(id)
+  }, [started, target, duration])
+
+  return [count, ref]
+}
 import { BARBERS, SERVICES, PRODUCTS, HOURS } from '../data/mockData.js'
 import { loadContent } from '../data/siteContent.js'
 import { loadReviews, addReview } from '../data/reviewsData.js'
@@ -150,6 +191,33 @@ function Nav({ onBook }) {
 }
 
 /* ────────────────────────────────────────────────────────
+   TICKER — bandeau défilant premium
+──────────────────────────────────────────────────────── */
+const TICKER_TEXT = [
+  "BARB'OR GUYANE", "✦", "PREMIUM GROOMING", "✦",
+  "CAYENNE", "✦", "BARBERSHOP D'EXCELLENCE", "✦",
+  "LA QUALITÉ EN PLUS", "✦", "DEPUIS 2020", "✦",
+]
+
+function Ticker({ inverted = false }) {
+  const items = [...TICKER_TEXT, ...TICKER_TEXT] // dupliquer pour seamless loop
+  return (
+    <div className={`overflow-hidden py-3 border-y ${inverted
+      ? 'bg-gold border-gold/0 text-black'
+      : 'bg-black border-white/5 text-white'}`}>
+      <div className="flex animate-marquee whitespace-nowrap">
+        {[...items, ...items].map((item, i) => (
+          <span key={i} className={`inline-block px-4 text-[10px] font-bold tracking-[4px] uppercase
+            ${item === '✦' ? (inverted ? 'text-black/50' : 'text-gold') : ''}`}>
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ────────────────────────────────────────────────────────
    LOGO HERO — affiché uniquement si une image est disponible
 ──────────────────────────────────────────────────────── */
 function LogoHero({ cms }) {
@@ -225,17 +293,17 @@ function Hero({ onBook, onDriver, cms }) {
           }}
         />
 
-        {/* Stars */}
-        {[...Array(18)].map((_, i) => (
+        {/* Particules stables */}
+        {PARTICLES.map((p, i) => (
           <div key={i} className="absolute rounded-full bg-white animate-pulse"
             style={{
-              width: Math.random() * 2 + 1 + 'px',
-              height: Math.random() * 2 + 1 + 'px',
-              top: Math.random() * 55 + '%',
-              left: Math.random() * 100 + '%',
-              animationDelay: Math.random() * 3 + 's',
-              animationDuration: Math.random() * 3 + 2 + 's',
-              opacity: Math.random() * 0.5 + 0.2,
+              width:  p.w + 'px',
+              height: p.w + 'px',
+              top:    p.top  + '%',
+              left:   p.left + '%',
+              animationDelay:    p.delay + 's',
+              animationDuration: p.dur   + 's',
+              opacity: p.opacity,
             }}
           />
         ))}
@@ -277,7 +345,7 @@ function Hero({ onBook, onDriver, cms }) {
 
         {/* CTAs */}
         <div className="flex flex-col items-center gap-3 w-full">
-          <button onClick={onBook} className="btn-pill text-base px-10 py-4 font-semibold tracking-wider w-full max-w-xs">
+          <button onClick={onBook} className="btn-pill text-base px-10 py-4 font-semibold tracking-wider w-full max-w-xs animate-glow-cta">
             {h.cta || 'Prendre rendez-vous'}
           </button>
           <button onClick={onDriver}
@@ -293,6 +361,24 @@ function Hero({ onBook, onDriver, cms }) {
         </p>
       </div>
     </section>
+  )
+}
+
+/* ────────────────────────────────────────────────────────
+   STAT COUNTER — compteur animé à l'entrée dans le viewport
+──────────────────────────────────────────────────────── */
+function StatCounter({ value, label, suffix }) {
+  const num = parseFloat(value) || 0
+  const [count, ref] = useCountUp(num)
+  const isFloat = num % 1 !== 0
+  return (
+    <div ref={ref} className="text-center border-l border-gold/20 pl-4">
+      <p className="font-display text-4xl text-gold leading-none">
+        {isFloat ? count.toFixed(1) : count}
+        <span className="text-2xl">{suffix}</span>
+      </p>
+      <p className="text-gray-500 text-xs mt-1 uppercase tracking-wide">{label}</p>
+    </div>
   )
 }
 
@@ -334,13 +420,10 @@ function ConceptSection({ cms }) {
           </p>
         </div>
 
-        {/* Stats */}
+        {/* Stats animées */}
         <div className="reveal delay-3 grid grid-cols-3 gap-4 pt-4">
           {stats.map(s => (
-            <div key={s.label} className="text-center border-l border-gold/20 pl-4">
-              <p className="font-display text-4xl text-gold leading-none">{s.value}<span className="text-2xl">{s.suffix}</span></p>
-              <p className="text-gray-500 text-xs mt-1 uppercase tracking-wide">{s.label}</p>
-            </div>
+            <StatCounter key={s.label} value={s.value} label={s.label} suffix={s.suffix} />
           ))}
         </div>
 
@@ -456,8 +539,8 @@ function BarbersSection({ onBook, cms }) {
             const photoUrl = photos[b.id]
             return (
               <button key={b.id} onClick={onBook}
-                className={`reveal delay-${i+1} group relative rounded-2xl overflow-hidden border border-white/5
-                  hover:border-gold/40 transition-all duration-300 hover:-translate-y-1`}
+                className={`reveal-scale delay-${i+1} group relative rounded-2xl overflow-hidden border border-white/5
+                  hover:border-gold/40 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(212,175,55,0.15)]`}
                 style={{ aspectRatio: '3/4' }}>
                 {/* Photo or placeholder */}
                 {photoUrl ? (
@@ -983,8 +1066,10 @@ export function LandingPage({ onRequireAuth }) {
     <div className="bg-black">
       <Nav onBook={goBook} />
       <Hero onBook={goBook} onDriver={goDriver} cms={cms} />
+      <Ticker />
       <ConceptSection cms={cms} />
       <ServicesSection onBook={goBook} />
+      <Ticker inverted />
       <BarbersSection onBook={goBook} cms={cms} />
       <ReviewsSection />
       <ShopSection onShop={goShop} cms={cms} />

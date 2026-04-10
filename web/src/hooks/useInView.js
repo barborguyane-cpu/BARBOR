@@ -14,8 +14,8 @@ export function useReveal() {
           if (entry.isIntersecting) {
             // Animate the element itself
             entry.target.classList.add('visible')
-            // Also animate children with .reveal, .reveal-left, .reveal-right
-            entry.target.querySelectorAll('.reveal, .reveal-left, .reveal-right')
+            // Also animate children with .reveal, .reveal-left, .reveal-right, .reveal-scale
+            entry.target.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale')
               .forEach(el => el.classList.add('visible'))
           }
         })
