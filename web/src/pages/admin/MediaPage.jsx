@@ -3,6 +3,7 @@ import { Upload, Trash2, Image, User, ShoppingBag, Check, AlertCircle, Loader } 
 import { BARBERS, PRODUCTS } from '../../data/mockData.js'
 import { uploadImage, deleteImage } from '../../lib/storage.js'
 import { saveMediaFS, subscribeMedia } from '../../data/firestoreData.js'
+import { loadContent, saveContent } from '../../data/siteContent.js'
 
 // ── Slot image avec upload Firebase ────────────────────────────────────────
 function ImageSlot({ label, sublabel, value, storagePath, onSave, aspect = 'square' }) {
@@ -106,7 +107,11 @@ export function MediaPage() {
 
   const saveMedia = (next) => {
     setMedia(next)
+    // Sauvegarde Firestore (partagé entre appareils)
     saveMediaFS(next).catch(console.error)
+    // Sauvegarde localStorage (accès instantané sur le même navigateur)
+    const cms = loadContent()
+    saveContent({ ...cms, media: { ...cms.media, ...next } })
   }
 
   const setBarberPhoto  = (id, url) => saveMedia({ ...media, photos:        { ...media.photos,        [id]: url } })

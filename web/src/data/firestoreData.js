@@ -42,8 +42,8 @@ export async function saveMediaFS(media) {
 export function subscribeMedia(cb) {
   return onSnapshot(
     doc(db, 'cms', 'media'),
-    snap => cb(snap.exists() ? snap.data() : { photos: {}, productImages: {} }),
-    err  => { console.warn('Firestore media:', err); cb({ photos: {}, productImages: {} }) },
+    snap => { if (snap.exists()) cb(snap.data()) },
+    err  => { console.warn('Firestore media:', err) },
   )
 }
 
