@@ -115,7 +115,7 @@ function Nav({ onBook }) {
         <div className="flex items-center justify-between px-5 py-4">
           {/* Logo icon */}
           <button onClick={() => scrollTo('#hero')} className="flex items-center">
-            <img src="/LOGO.PNG" alt="BARB'OR" className="h-9 w-9 object-contain"
+            <img src="/LOGO.PNG" alt="BARB'OR" className="h-9 w-9 object-contain mix-blend-screen"
               onError={e => {
                 e.target.style.display = 'none'
                 e.target.nextSibling.style.display = 'flex'
@@ -153,7 +153,7 @@ function Nav({ onBook }) {
           {/* Top bar */}
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-3">
-              <img src="/LOGO.PNG" alt="" className="h-9 w-9 object-contain"
+              <img src="/LOGO.PNG" alt="" className="h-9 w-9 object-contain mix-blend-screen"
                 onError={e => e.target.style.display='none'} />
               <div>
                 <p className="font-display text-gold text-xl tracking-widest">BARB'OR</p>
@@ -226,7 +226,7 @@ function LogoHero({ cms }) {
       <img
         src={src}
         alt="BARB'OR"
-        className="w-32 h-32 object-contain drop-shadow-2xl"
+        className="w-32 h-32 object-contain drop-shadow-2xl mix-blend-screen"
       />
     </div>
   )
