@@ -26,7 +26,7 @@ function SideNav({ onClose, onLogout }) {
       <div className="p-5 border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-            <img src="/logo.png" alt="" className="w-6 h-6 object-contain"
+            <img src="/LOGO.PNG" alt="" className="w-6 h-6 object-contain"
               onError={e => e.target.style.display='none'} />
           </div>
           <div>

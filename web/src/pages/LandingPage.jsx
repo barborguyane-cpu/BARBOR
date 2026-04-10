@@ -115,7 +115,7 @@ function Nav({ onBook }) {
         <div className="flex items-center justify-between px-5 py-4">
           {/* Logo icon */}
           <button onClick={() => scrollTo('#hero')} className="flex items-center">
-            <img src="/logo.png" alt="BARB'OR" className="h-9 w-9 object-contain"
+            <img src="/LOGO.PNG" alt="BARB'OR" className="h-9 w-9 object-contain"
               onError={e => {
                 e.target.style.display = 'none'
                 e.target.nextSibling.style.display = 'flex'
@@ -153,7 +153,7 @@ function Nav({ onBook }) {
           {/* Top bar */}
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="" className="h-9 w-9 object-contain"
+              <img src="/LOGO.PNG" alt="" className="h-9 w-9 object-contain"
                 onError={e => e.target.style.display='none'} />
               <div>
                 <p className="font-display text-gold text-xl tracking-widest">BARB'OR</p>
@@ -219,22 +219,15 @@ function Ticker() {
    LOGO HERO — affiché uniquement si une image est disponible
 ──────────────────────────────────────────────────────── */
 function LogoHero({ cms }) {
-  const [imgOk, setImgOk] = useState(true)
-  const src = cms?.media?.logoUrl
-
-  // Pas de logo uploadé → rien
-  if (!src) return null
+  const src = cms?.media?.logoUrl || '/LOGO.PNG'
 
   return (
-    <div className="absolute top-[10vh] left-1/2 -translate-x-1/2 flex items-center justify-center">
-      {imgOk ? (
-        <img
-          src={src}
-          alt="BARB'OR"
-          className="relative w-36 h-36 object-contain drop-shadow-2xl rounded-full"
-          onError={() => setImgOk(false)}
-        />
-      ) : null}
+    <div className="absolute top-[8vh] left-1/2 -translate-x-1/2 flex items-center justify-center">
+      <img
+        src={src}
+        alt="BARB'OR"
+        className="w-32 h-32 object-contain drop-shadow-2xl"
+      />
     </div>
   )
 }
