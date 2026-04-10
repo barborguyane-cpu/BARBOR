@@ -218,21 +218,6 @@ function Ticker() {
 /* ────────────────────────────────────────────────────────
    LOGO HERO — affiché uniquement si une image est disponible
 ──────────────────────────────────────────────────────── */
-function LogoHero({ cms }) {
-  const src = cms?.media?.logoUrl || '/logo-rond.png'
-
-  return (
-    <div className="absolute top-[8vh] left-1/2 -translate-x-1/2 flex items-center justify-center">
-      <img
-        src={src}
-        alt="BARB'OR"
-        className="w-36 h-36 object-contain"
-        style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 16px rgba(212,175,55,0.5))' }}
-        onError={e => e.target.style.display = 'none'}
-      />
-    </div>
-  )
-}
 
 /* ────────────────────────────────────────────────────────
    HERO — style Blackbox Paris
@@ -304,11 +289,19 @@ function Hero({ onBook, onDriver, cms }) {
 
       </div>
 
-      {/* Logo central — grand, lumineux, en haut */}
-      <LogoHero cms={cms} />
-
       {/* Hero content — bottom aligned like Blackbox */}
       <div className="relative text-center px-5 space-y-7">
+
+        {/* Logo — intégré dans le flux, taille responsive */}
+        <div className="flex justify-center">
+          <img
+            src={cms?.media?.logoUrl || '/logo-rond.png'}
+            alt="BARB'OR"
+            className="w-20 h-20 md:w-16 md:h-16 object-contain"
+            style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 12px rgba(212,175,55,0.4))' }}
+            onError={e => e.target.style.display = 'none'}
+          />
+        </div>
 
         {/* Badge premium */}
         <div className="flex justify-center">
