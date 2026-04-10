@@ -45,6 +45,7 @@ function useCountUp(target, duration = 1800) {
 }
 import { BARBERS, SERVICES, PRODUCTS, HOURS } from '../data/mockData.js'
 import { loadContent } from '../data/siteContent.js'
+import { subscribeMedia } from '../data/firestoreData.js'
 import { loadReviews, addReview } from '../data/reviewsData.js'
 
 // Lit les avis site et reste à jour
@@ -58,13 +59,14 @@ function useSiteReviews() {
   return reviews
 }
 
-// Lit le contenu CMS (localStorage → defaults) et reste à jour
+// Lit le contenu CMS + media Firestore (photos barbers/produits en temps réel)
 function useSiteContent() {
   const [c, setC] = useState(() => loadContent())
   useEffect(() => {
     const h = () => setC(loadContent())
     window.addEventListener('barbor_cms_update', h)
-    return () => window.removeEventListener('barbor_cms_update', h)
+    const unsub = subscribeMedia(media => setC(prev => ({ ...prev, media: { ...prev.media, ...media } })))
+    return () => { window.removeEventListener('barbor_cms_update', h); unsub() }
   }, [])
   return c
 }
@@ -372,7 +374,7 @@ function ConceptSection({ cms }) {
       <div className="gold-line mb-16" />
 
       {/* Section number */}
-      <p className="section-number absolute top-16 left-4 select-none">01</p>
+      <p className="section-number absolute top-16 right-4 select-none">01</p>
 
       <div className="max-w-lg mx-auto space-y-10">
         <div className="reveal">
@@ -495,7 +497,7 @@ function BarbersSection({ onBook, cms }) {
 
   return (
     <section id="barbers" ref={ref} className="relative py-24 px-5 bg-black overflow-hidden">
-      <p className="section-number absolute top-12 left-4 select-none">03</p>
+      <p className="section-number absolute top-12 right-4 select-none">03</p>
 
       <div className="max-w-lg mx-auto">
         <div className="reveal mb-12">
@@ -734,7 +736,7 @@ function ReviewsSection() {
   return (
     <>
       <section ref={ref} className="relative py-24 bg-[#030303] overflow-hidden">
-        <p className="section-number absolute top-12 left-4 select-none">04</p>
+        <p className="section-number absolute top-12 right-4 select-none">04</p>
 
         <div className="max-w-lg mx-auto px-5">
           <div className="reveal mb-10">

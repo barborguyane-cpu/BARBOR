@@ -33,6 +33,20 @@ export async function deleteAppointmentFS(fsId) {
   return deleteDoc(doc(db, 'appointments', fsId))
 }
 
+// ── CMS Media (photos barbers + produits) ─────────────────────────────────────
+
+export async function saveMediaFS(media) {
+  return setDoc(doc(db, 'cms', 'media'), media)
+}
+
+export function subscribeMedia(cb) {
+  return onSnapshot(
+    doc(db, 'cms', 'media'),
+    snap => cb(snap.exists() ? snap.data() : { photos: {}, productImages: {} }),
+    err  => { console.warn('Firestore media:', err); cb({ photos: {}, productImages: {} }) },
+  )
+}
+
 // ── Users ─────────────────────────────────────────────────────────────────────
 
 export async function saveUserFS(user) {

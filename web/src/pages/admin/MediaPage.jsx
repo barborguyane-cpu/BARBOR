@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Upload, Trash2, Image, User, ShoppingBag, Check, AlertCircle, Loader } from 'lucide-react'
 import { BARBERS, PRODUCTS } from '../../data/mockData.js'
-import { loadContent, saveContent } from '../../data/siteContent.js'
 import { uploadImage, deleteImage } from '../../lib/storage.js'
+import { saveMediaFS, subscribeMedia } from '../../data/firestoreData.js'
 
 // ── Slot image avec upload Firebase ────────────────────────────────────────
 function ImageSlot({ label, sublabel, value, storagePath, onSave, aspect = 'square' }) {
@@ -100,18 +100,17 @@ function ImageSlot({ label, sublabel, value, storagePath, onSave, aspect = 'squa
 
 // ── Page principale ─────────────────────────────────────────────────────────
 export function MediaPage() {
-  const [cms, setCms] = useState(() => loadContent())
+  const [media, setMedia] = useState({ photos: {}, productImages: {} })
 
-  const save = (next) => {
-    setCms(next)
-    saveContent(next)
+  useEffect(() => subscribeMedia(setMedia), [])
+
+  const saveMedia = (next) => {
+    setMedia(next)
+    saveMediaFS(next).catch(console.error)
   }
 
-  const setBarberPhoto = (id, url) =>
-    save({ ...cms, media: { ...cms.media, photos: { ...cms.media.photos, [id]: url } } })
-
-  const setProductImage = (id, url) =>
-    save({ ...cms, media: { ...cms.media, productImages: { ...cms.media.productImages, [id]: url } } })
+  const setBarberPhoto  = (id, url) => saveMedia({ ...media, photos:        { ...media.photos,        [id]: url } })
+  const setProductImage = (id, url) => saveMedia({ ...media, productImages: { ...media.productImages, [id]: url } })
 
   return (
     <div className="p-5 max-w-2xl mx-auto space-y-10 pb-20">
@@ -139,7 +138,7 @@ export function MediaPage() {
               key={b.id}
               label={`${b.firstName} ${b.lastName}`}
               sublabel={b.specialty}
-              value={cms.media.photos?.[b.id] || ''}
+              value={media.photos?.[b.id] || ''}
               storagePath={`barbers/${b.id}_${Date.now()}.jpg`}
               onSave={url => setBarberPhoto(b.id, url)}
               aspect="3/4"
@@ -163,7 +162,7 @@ export function MediaPage() {
               key={p.id}
               label={p.name}
               sublabel={`${p.brand} · ${p.price}€`}
-              value={cms.media.productImages?.[p.id] || ''}
+              value={media.productImages?.[p.id] || ''}
               storagePath={`products/${p.id}_${Date.now()}.jpg`}
               onSave={url => setProductImage(p.id, url)}
               aspect="square"
