@@ -146,8 +146,8 @@ function Nav({ onBook }) {
           {/* Top bar */}
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-3">
-              <img src="/LOGO.PNG" alt="" className="h-10 w-auto object-contain mix-blend-screen"
-                onError={e => e.target.style.display='none'} />
+              <img src="/logo-rond.png" alt="" className="h-10 w-10 object-contain"
+                style={{ filter: 'brightness(0) invert(1)' }} />
               <div>
                 <p className="font-display text-gold text-xl tracking-widest">BARB'OR</p>
                 <p className="text-gray-500 text-[10px] tracking-[4px] uppercase">Guyane</p>
