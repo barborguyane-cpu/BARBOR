@@ -122,8 +122,8 @@ function Nav({ onBook }) {
               style={{ filter: 'brightness(0) invert(1)' }}
             />
             <div className="flex flex-col items-start leading-none">
-              <span className="text-white font-black text-xs tracking-widest uppercase">Barbershop</span>
-              <span className="text-gold font-black text-xs tracking-widest uppercase">Cayenne</span>
+              <span className="text-white font-black text-xs tracking-widest uppercase">Barb'or</span>
+              <span className="text-gold font-black text-xs tracking-widest uppercase">Guyane</span>
             </div>
           </button>
 
