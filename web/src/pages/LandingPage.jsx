@@ -43,9 +43,9 @@ function useCountUp(target, duration = 1800) {
 
   return [count, ref]
 }
-import { BARBERS, SERVICES, PRODUCTS, HOURS } from '../data/mockData.js'
+import { BARBERS, SERVICES, HOURS } from '../data/mockData.js'
 import { loadContent } from '../data/siteContent.js'
-import { subscribeMedia } from '../data/firestoreData.js'
+import { subscribeMedia, subscribeProducts } from '../data/firestoreData.js'
 import { loadReviews, addReview } from '../data/reviewsData.js'
 
 // Lit les avis site et reste à jour
@@ -789,9 +789,11 @@ function ReviewsSection() {
 /* ────────────────────────────────────────────────────────
    SHOP SECTION
 ──────────────────────────────────────────────────────── */
-function ShopSection({ onShop, cms }) {
+function ShopSection({ onShop }) {
   const ref = useReveal()
-  const featured = PRODUCTS.slice(0, 4)
+  const [products, setProducts] = useState([])
+  useEffect(() => subscribeProducts(setProducts), [])
+  const featured = products.slice(0, 4)
 
   return (
     <section id="shop" ref={ref} className="relative py-24 px-5 bg-[#030303] overflow-hidden">
@@ -807,15 +809,13 @@ function ShopSection({ onShop, cms }) {
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          {featured.map((p, i) => {
-            const imgUrl = cms?.media?.productImages?.[p.id]
-            return (
+          {featured.map((p, i) => (
             <button key={p.id} onClick={onShop}
               className={`reveal delay-${i+1} group text-left rounded-2xl border border-white/5 bg-[#0D0D0D] overflow-hidden
                 hover:border-gold/30 hover:-translate-y-1 transition-all duration-300`}>
               <div className="aspect-square bg-gradient-to-br from-gray-900 to-black flex items-center justify-center overflow-hidden">
-                {imgUrl
-                  ? <img src={imgUrl} alt={p.name} className="w-full h-full object-cover" />
+                {p.imageUrl
+                  ? <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
                   : <span className="text-4xl">
                       {p.category === 'styling' ? '💈' :
                        p.category === 'soins'   ? '🧴' : '🛒'}
@@ -834,8 +834,7 @@ function ShopSection({ onShop, cms }) {
                 </div>
               </div>
             </button>
-            )
-          })}
+          ))}
         </div>
 
         <div className="reveal mt-8 text-center">
@@ -1046,7 +1045,7 @@ export function LandingPage({ onRequireAuth }) {
       <Ticker />
       <BarbersSection onBook={goBook} cms={cms} />
       <ReviewsSection />
-      <ShopSection onShop={goShop} cms={cms} />
+      <ShopSection onShop={goShop} />
       <BookingCTA onBook={goBook} />
       <Footer onBook={goBook} cms={cms} />
     </div>

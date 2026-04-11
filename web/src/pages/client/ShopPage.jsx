@@ -1,29 +1,25 @@
 import { useState, useEffect } from 'react'
 import { ShoppingCart, Star, Plus, Minus, Trash2, X, CreditCard } from 'lucide-react'
-import { PRODUCTS } from '../../data/mockData.js'
-import { loadContent } from '../../data/siteContent.js'
+import { subscribeProducts } from '../../data/firestoreData.js'
 
 const CATS = [
-  { key: 'all', label: 'Tout' },
-  { key: 'soins', label: 'Soins' },
-  { key: 'styling', label: 'Styling' },
-  { key: 'accessoires', label: 'Accessoires' },
+  { key: 'all',        label: 'Tout' },
+  { key: 'soins',      label: 'Soins' },
+  { key: 'styling',    label: 'Styling' },
+  { key: 'accessoires',label: 'Accessoires' },
+  { key: 'autre',      label: 'Autre' },
 ]
 
 export function ShopPage({ auth, onRequireAuth }) {
-  const [cat, setCat]       = useState('all')
-  const [cart, setCart]     = useState([])
-  const [cms, setCms]       = useState(() => loadContent())
-
-  useEffect(() => {
-    const handler = () => setCms(loadContent())
-    window.addEventListener('barbor_cms_update', handler)
-    return () => window.removeEventListener('barbor_cms_update', handler)
-  }, [])
-  const [showCart, setShowCart]   = useState(false)
+  const [products, setProducts] = useState([])
+  const [cat, setCat]           = useState('all')
+  const [cart, setCart]         = useState([])
+  const [showCart, setShowCart]       = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
-  const filtered = cat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === cat)
+  useEffect(() => subscribeProducts(setProducts), [])
+
+  const filtered = cat === 'all' ? products : products.filter(p => p.category === cat)
   const total    = cart.reduce((s, i) => s + i.product.price * i.qty, 0)
   const count    = cart.reduce((s, i) => s + i.qty, 0)
 
@@ -90,13 +86,11 @@ export function ShopPage({ auth, onRequireAuth }) {
 
       {/* Grid */}
       <div className="grid grid-cols-2 gap-3 px-4">
-        {filtered.map(p => {
-          const imgUrl = cms?.media?.productImages?.[p.id]
-          return (
+        {filtered.map(p => (
           <div key={p.id} className="bg-surface rounded-2xl border border-white/5 overflow-hidden hover:border-gold/20 transition-all">
             <div className="aspect-square bg-card flex items-center justify-center text-5xl overflow-hidden">
-              {imgUrl
-                ? <img src={imgUrl} alt={p.name} className="w-full h-full object-cover" />
+              {p.imageUrl
+                ? <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
                 : (p.category === 'styling' ? '💈' : p.category === 'soins' ? '🧴' : '✂️')
               }
             </div>
@@ -146,13 +140,11 @@ export function ShopPage({ auth, onRequireAuth }) {
             ) : (
               <>
                 <div className="space-y-3 mb-6">
-                  {cart.map(({ product: p, qty }) => {
-                    const cartImg = cms?.media?.productImages?.[p.id]
-                    return (
+                  {cart.map(({ product: p, qty }) => (
                     <div key={p.id} className="flex items-center gap-3 bg-surface rounded-xl p-3">
                       <div className="w-12 h-12 bg-card rounded-xl flex items-center justify-center text-2xl shrink-0 overflow-hidden">
-                        {cartImg
-                          ? <img src={cartImg} alt={p.name} className="w-full h-full object-cover" />
+                        {p.imageUrl
+                          ? <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
                           : (p.category === 'styling' ? '💈' : p.category === 'soins' ? '🧴' : '✂️')
                         }
                       </div>
@@ -173,8 +165,7 @@ export function ShopPage({ auth, onRequireAuth }) {
                         </button>
                       </div>
                     </div>
-                    )
-                  })}
+                  ))}
                 </div>
                 <div className="border-t border-white/10 pt-4 space-y-3">
                   <div className="flex justify-between">

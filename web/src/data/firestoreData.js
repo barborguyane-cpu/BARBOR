@@ -33,6 +33,30 @@ export async function deleteAppointmentFS(fsId) {
   return deleteDoc(doc(db, 'appointments', fsId))
 }
 
+// ── Products ──────────────────────────────────────────────────────────────────
+
+export function subscribeProducts(cb) {
+  return onSnapshot(
+    collection(db, 'products'),
+    snap => cb(snap.docs.map(d => ({ ...d.data(), id: d.id }))),
+    err  => { console.warn('Firestore products:', err); cb([]) },
+  )
+}
+
+export async function addProductFS(product) {
+  const { id, ...data } = product
+  return addDoc(collection(db, 'products'), { ...data, createdAt: serverTimestamp() })
+}
+
+export async function updateProductFS(id, data) {
+  const { id: _id, createdAt, ...rest } = data
+  return updateDoc(doc(db, 'products', id), rest)
+}
+
+export async function deleteProductFS(id) {
+  return deleteDoc(doc(db, 'products', id))
+}
+
 // ── CMS Media (photos barbers + produits) ─────────────────────────────────────
 
 export async function saveMediaFS(media) {
