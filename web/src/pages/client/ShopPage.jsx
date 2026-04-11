@@ -118,8 +118,7 @@ export function ShopPage({ auth, onRequireAuth }) {
               {p.stock === 0 && <p className="text-red-400 text-xs">Rupture de stock</p>}
             </div>
           </div>
-          )
-        })}
+        ))}
       </div>
 
       {/* Cart drawer */}
