@@ -290,7 +290,6 @@ function Hero({ onBook, onDriver, cms }) {
           src={cms?.media?.logoUrl || '/logo-rond.png'}
           alt="BARB'OR"
           className="w-56 h-56 object-contain animate-logo-enter"
-          style={{ filter: 'brightness(0) invert(1) drop-shadow(0 0 32px rgba(255,215,0,0.8))' }}
           onError={e => e.target.style.display = 'none'}
         />
       </div>
