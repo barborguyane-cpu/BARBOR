@@ -298,14 +298,20 @@ function Hero({ onBook, onDriver, cms }) {
       {/* Bas du hero — BARB'OR + slogan + CTAs */}
       <div className="relative text-center px-5 space-y-4 w-full">
 
-        {/* Logo texte officiel */}
-        <div className="flex justify-center px-2">
-          <img
-            src="/logo-texte.png"
-            alt="BARB'OR Guyane"
-            className="w-full object-contain"
-            style={{ filter: 'drop-shadow(0 0 14px rgba(255,215,0,0.3))' }}
-          />
+        {/* BARB'OR — texte stylisé */}
+        <div className="space-y-3">
+          <h1 className="text-[72px] sm:text-[96px] font-black leading-none tracking-tight"
+            style={{ textShadow: '0 0 40px rgba(212,175,55,0.25)' }}>
+            <span className="text-white">BARB'</span><span className="text-gold">OR</span>
+          </h1>
+          <p className="text-white/80 text-xs sm:text-sm tracking-[6px] uppercase font-semibold">
+            Coiffure and Shop
+          </p>
+          <div className="flex justify-center pt-1">
+            <span className="px-7 py-2 rounded-full border-2 border-gold text-gold font-black text-sm tracking-[5px] uppercase">
+              Guyane
+            </span>
+          </div>
         </div>
 
         {/* Slogan séparé par une ligne gold */}
